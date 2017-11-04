@@ -29,6 +29,7 @@ signal SelectedLetterThirdDigit: LetterMatrix;
 constant scale: std_logic_vector:=0011; -- chooses the size of the letters.
 signal scale_counter: std_logic_vector:= scale;
 
+
 constant zero: LetterMatrix:= ((0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0),		
 							   (0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0),
 							   (0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0,0),
