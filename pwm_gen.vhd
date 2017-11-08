@@ -16,7 +16,7 @@ architecture Behavioral of pwm_gen is
 
 signal i_waveform: std_logic;
 signal count: integer;
-signal max_count: integer := 370;
+signal max_count: integer := 512;
 
 begin
 
