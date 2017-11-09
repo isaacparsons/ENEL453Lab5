@@ -4,7 +4,6 @@ entity sevensegment_controller is
 Generic(WIDTH : integer := 10);
     Port ( clk : in STD_LOGIC;
        reset : in STD_LOGIC;
-       enable : in STD_LOGIC;
        Binary_Value : in STD_LOGIC_VECTOR (WIDTH-1 downto 0);
        CA : out STD_LOGIC;
        CB : out STD_LOGIC;
