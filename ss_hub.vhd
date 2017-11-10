@@ -3,9 +3,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity ss_hub is
 Port ( 		clk   : in STD_LOGIC;
-			reset : in STD_LOGIC; -- BTNC
-			op_comp : in STD_LOGIC;
-			to_filter : out STD_LOGIC;
+			reset : in STD_LOGIC; -- U17
+			op_comp : in STD_LOGIC; --JB1
+			to_filter : out STD_LOGIC; --JB0
 			
 			--sevensegment stuff
 			CA : out  STD_LOGIC;
