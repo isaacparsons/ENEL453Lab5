@@ -22,11 +22,7 @@ Port ( 		clk   : in STD_LOGIC;
 			AN4 : out STD_LOGIC
 						
 			   );
-<<<<<<< HEAD
 end ss_hub;
-=======
-end sevensegment;
->>>>>>> refs/remotes/origin/master
 
 architecture Behavioral of ss_hub is
 --Signals:
@@ -36,16 +32,9 @@ signal i_locked_amp: std_logic_vector(8 downto 0);
 
 --Components:
 component sevensegment_controller
-<<<<<<< HEAD
 	Port ( clk : in STD_LOGIC;
 		   reset : in STD_LOGIC;
 		   Binary_Value : in STD_LOGIC_VECTOR (8 downto 0);
-=======
-	Generic(WIDTH : integer := 10);
-	Port ( clk : in STD_LOGIC;
-		   reset : in STD_LOGIC;
-		   Binary_Value : in STD_LOGIC_VECTOR (WIDTH-1 downto 0);
->>>>>>> refs/remotes/origin/master
 		   CA : out STD_LOGIC;
 		   CB : out STD_LOGIC;
 		   CC : out STD_LOGIC;
@@ -57,11 +46,7 @@ component sevensegment_controller
 		   AN1 : out STD_LOGIC;
 		   AN2 : out STD_LOGIC;
 		   AN3 : out STD_LOGIC;
-<<<<<<< HEAD
 		   AN4 : out STD_LOGIC--;
-=======
-		   AN4 : out STD_LOGIC
->>>>>>> refs/remotes/origin/master
 		   );
 end component;
 
@@ -71,10 +56,7 @@ component saw_wave
 			outamplitude : out integer;
 			waveform     : out STD_LOGIC--;
 			);
-<<<<<<< HEAD
 end component;
-=======
->>>>>>> refs/remotes/origin/master
 			
 component amp_lock
 	Port (	clk   : in STD_LOGIC;
@@ -83,11 +65,7 @@ component amp_lock
 			saw_amp    : in integer;
 			locked_amp : out std_logic_vector(8 downto 0)--;
 			);
-<<<<<<< HEAD
 end component;
-=======
-
->>>>>>> refs/remotes/origin/master
 
 begin 
 
@@ -111,10 +89,7 @@ comp_check: amp_lock
 				);
 
 ss_top: sevensegment_controller
-<<<<<<< HEAD
 	PORT MAP (
-=======
->>>>>>> refs/remotes/origin/master
 		  clk => clk,
 		  reset => reset,
 		  Binary_Value => i_locked_amp,
@@ -129,10 +104,6 @@ ss_top: sevensegment_controller
 		  AN1 => AN1,
 		  AN2 => AN2,
 		  AN3 => AN3,
-<<<<<<< HEAD
 		  AN4 => AN4--,
-=======
-		  AN4 => AN4
->>>>>>> refs/remotes/origin/master
 		  );
 end Behavioral;

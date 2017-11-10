@@ -14,11 +14,7 @@ ARCHITECTURE behavior OF tb_amp_lock IS
 			   reset 	 : in  STD_LOGIC;
 			   comp_state: in STD_LOGIC;
 			   saw_amp 	 : in integer;
-<<<<<<< HEAD
 			   locked_amp: out std_logic_vector(8 downto 0)--;
-=======
-			   locked_amp: out std_logic_vector(8 downto 0);
->>>>>>> refs/remotes/origin/master
 			 );
 	end component;
     
