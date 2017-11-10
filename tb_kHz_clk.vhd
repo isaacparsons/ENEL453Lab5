@@ -1,11 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity tb_clkkhz is
-end tb_clkkhz;
+entity tb_kHz_clk is
+end tb_kHz_clk;
 
-architecture behavior of tb_clkkhz is 
-	component clkkhz
+architecture behavior of tb_kHz_clk is 
+	component kHz_clk
 	port(
 		clk_in : in  std_logic;
 		reset  : in  std_logic;
@@ -19,7 +19,7 @@ architecture behavior of tb_clkkhz is
     
 	constant clk_period : time := 10 ns;
 begin 
-	uut: clkkhz port map (
+	uut: kHz_clk port map (
 		clk_in  => clk_in,
 		reset   => reset,
 		clk_out => clk_out
