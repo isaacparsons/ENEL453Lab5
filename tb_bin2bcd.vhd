@@ -13,7 +13,7 @@ architecture behavior of tb_bin2bcd is
            cm_tens : out std_logic_vector (3 downto 0);            -- xooo
            cm_ones : out std_logic_vector (3 downto 0);            -- oxoo
            cm_tenths : out std_logic_vector (3 downto 0);          -- ooxo
-           cm_hundredths : out std_logic_vector (3 downto 0);      -- ooox
+           cm_hundredths : out std_logic_vector (3 downto 0)      -- ooox
          );
   end component; 
        
