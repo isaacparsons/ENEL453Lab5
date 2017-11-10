@@ -1,136 +1,134 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+
 entity sevensegment_controller is
-Generic(WIDTH : integer := 10);
-    Port ( clk : in STD_LOGIC;
-       reset : in STD_LOGIC;
-       Binary_Value : in STD_LOGIC_VECTOR (WIDTH-1 downto 0);
-       CA : out STD_LOGIC;
-       CB : out STD_LOGIC;
-       CC : out STD_LOGIC;
-       CD : out STD_LOGIC;
-       CE : out STD_LOGIC;
-       CF : out STD_LOGIC;
-       CG : out STD_LOGIC;
-       DP : out STD_LOGIC;
-       AN1 : out STD_LOGIC;
-       AN2 : out STD_LOGIC;
-       AN3 : out STD_LOGIC;
-       AN4 : out STD_LOGIC
+    port ( clk : in std_logic;
+       reset : in std_logic;
+       binary_value : in std_logic_vector (8 downto 0);
+       ca : out std_logic;
+       cb : out std_logic;
+       cc : out std_logic;
+       cd : out std_logic;
+       ce : out std_logic;
+       cf : out std_logic;
+       cg : out std_logic;
+       dp : out std_logic;
+       an1 : out std_logic;
+       an2 : out std_logic;
+       an3 : out std_logic;
+       an4 : out std_logic
        );
 end sevensegment_controller;
 
-architecture Behavioral of sevensegment_controller is
+architecture behavioral of sevensegment_controller is
 
 signal i_dp: std_logic;
-signal i_an: STD_LOGIC_VECTOR(3 downto 0);
-signal i_kHz: std_logic;
+signal i_an: std_logic_vector(3 downto 0);
+signal i_khz: std_logic;
 signal digit_to_display: std_logic_vector(3 downto 0);
 
---Outputs
+--outputs
 
-signal i_CM_TENS : std_logic_vector(3 downto 0);
-signal i_CM_ONES : std_logic_vector(3 downto 0);
-signal i_CM_TENTHS : std_logic_vector(3 downto 0);
-signal i_CM_HUNDREDTHS : std_logic_vector(3 downto 0);
+signal i_cm_tens : std_logic_vector(3 downto 0);
+signal i_cm_ones : std_logic_vector(3 downto 0);
+signal i_cm_tenths : std_logic_vector(3 downto 0);
+signal i_cm_hundredths : std_logic_vector(3 downto 0);
 
 component bin2bcd is
-    Generic(WIDTH : integer := 10); --Number of bits to represent ADC_BIN_OUT
-    Port ( CLK : in STD_LOGIC;                                      
-           RST : in STD_LOGIC;
-           ACD_BIN_OUT : in  STD_LOGIC_VECTOR (WIDTH-1 downto 0);   -- ADC output value as a binary string              
-           CM_TENS : out  STD_LOGIC_VECTOR (3 downto 0);            -- Needs to display 0-4
-           CM_ONES : out  STD_LOGIC_VECTOR (3 downto 0);            -- Needs to display 0-9
-           CM_TENTHS : out  STD_LOGIC_VECTOR (3 downto 0);          -- Needs to display 0-9
-           CM_HUNDREDTHS : out  STD_LOGIC_VECTOR (3 downto 0)      -- Always display 0
+    port ( clk : in std_logic;                                      
+           rst : in std_logic;
+           acd_bin_out : in  std_logic_vector (8 downto 0);   -- adc output value as a binary string              
+           cm_tens : out  std_logic_vector (3 downto 0);            -- needs to display 0-4
+           cm_ones : out  std_logic_vector (3 downto 0);            -- needs to display 0-9
+           cm_tenths : out  std_logic_vector (3 downto 0);          -- needs to display 0-9
+           cm_hundredths : out  std_logic_vector (3 downto 0)      -- always display 0
           );
 end component;
 
-component clkkHz is
-    Port (  clk_in : in  STD_LOGIC;
-            reset  : in  STD_LOGIC;
-            clk_out: out STD_LOGIC
+component kHz_clk is
+    port (  clk_in : in  std_logic;
+            reset  : in  std_logic;
+            clk_out: out std_logic
           );
 end component;
 
 component sevensegment_selector is
-    Port (clk : in STD_LOGIC;
+    port (clk : in std_logic;
             switch : in std_logic;
             output : out std_logic_vector(3 downto 0);
-            reset : in STD_LOGIC
+            reset : in std_logic
             );
 end component;
 
 
-component sevensegment is
-    Port ( CA : out  STD_LOGIC;
-           CB : out  STD_LOGIC;
-           CC : out  STD_LOGIC;
-           CD : out  STD_LOGIC;
-           CE : out  STD_LOGIC;
-           CF : out  STD_LOGIC;
-           CG : out  STD_LOGIC;
-           DP : out  STD_LOGIC;
-		   dp_in: in STD_LOGIC;
-           data : in  STD_LOGIC_VECTOR (3 downto 0)
+component sevensegment_decoder is
+    port ( ca : out  std_logic;
+           cb : out  std_logic;
+           cc : out  std_logic;
+           cd : out  std_logic;
+           ce : out  std_logic;
+           cf : out  std_logic;
+           cg : out  std_logic;
+           dp : out  std_logic;
+		   dp_in: in std_logic;
+           data : in  std_logic_vector (3 downto 0)
 			   );
 end component;
 
 begin
 
-BCD1: bin2bcd
-    Generic Map(WIDTH => 10)
-    port map(          CLK => CLK,
-                RST => reset,
-    ACD_BIN_OUT => Binary_Value,
-    CM_TENS => i_CM_TENS,
-    CM_ONES => i_CM_ONES,
-    CM_TENTHS => i_CM_TENTHS,
-    CM_HUNDREDTHS => i_CM_HUNDREDTHS    
+bcd: bin2bcd
+    port map(          clk => clk,
+                rst => reset,
+    acd_bin_out => binary_value,
+    cm_tens => i_cm_tens,
+    cm_ones => i_cm_ones,
+    cm_tenths => i_cm_tenths,
+    cm_hundredths => i_cm_hundredths    
     );
 
-SELECTOR: sevensegment_selector
+selector: sevensegment_selector
 port map( clk => clk,
-          switch => i_kHz,
+          switch => i_khz,
           output => i_an,
           reset => reset
           );
           
-kHZCLK: clkkHz
+khzclk: kHz_clk
 port map(clk_in => clk,
          reset => reset,
-         clk_out => i_kHz
+         clk_out => i_khz
 
 );		
-DISPLAY: sevensegment
+decoder: sevensegment_decoder
 port map(
-    CA => CA,
-    CB => CB,
-    CC => CC,
-    CD => CD,
-    CE => CE,
-    CF => CF,
-    CG => CG,
-    DP => DP,
+    ca => ca,
+    cb => cb,
+    cc => cc,
+    cd => cd,
+    ce => ce,
+    cf => cf,
+    cg => cg,
+    dp => dp,
     dp_in => i_dp,
     data => digit_to_display
     );
 
-digit_mux: process(i_an, i_CM_HUNDREDTHS, i_CM_TENTHS, i_CM_ONES, i_CM_TENS)
+digit_mux: process(i_an, i_cm_hundredths, i_cm_tenths, i_cm_ones, i_cm_tens)
 begin
     case(i_an) is
-        when "0001" => digit_to_display <= i_CM_HUNDREDTHS;
-        when "0010" => digit_to_display <= i_CM_TENTHS;
-        when "0100" => digit_to_display <= i_CM_ONES;
-        when "1000" => digit_to_display <= i_CM_TENS;
+        when "0001" => digit_to_display <= i_cm_hundredths;
+        when "0010" => digit_to_display <= i_cm_tenths;
+        when "0100" => digit_to_display <= i_cm_ones;
+        when "1000" => digit_to_display <= i_cm_tens;
         when others => digit_to_display <= "1111";
     end case;
 end process;
 
-AN1 <= not i_an(0);
-AN2 <= not i_an(1);
-AN3 <= not i_an(2);
-AN4 <= not i_an(3);
+an1 <= not i_an(0);
+an2 <= not i_an(1);
+an3 <= not i_an(2);
+an4 <= not i_an(3);
 
 --i_dp <= i_an(2);
-end Behavioral;
+end behavioral;

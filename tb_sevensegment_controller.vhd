@@ -1,99 +1,101 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity tb_sevensegment_controller is
 end tb_sevensegment_controller;
 
-architecture Behavioral of tb_sevensegment_controller is
+architecture behavioral of tb_sevensegment_controller is
 
 component sevensegment_controller
-Generic(WIDTH : integer := 10);
-    Port ( clk : in STD_LOGIC;
-       reset : in STD_LOGIC;
-       Binary_Value : in STD_LOGIC_VECTOR (WIDTH-1 downto 0);
-       CA : out STD_LOGIC;
-       CB : out STD_LOGIC;
-       CC : out STD_LOGIC;
-       CD : out STD_LOGIC;
-       CE : out STD_LOGIC;
-       CF : out STD_LOGIC;
-       CG : out STD_LOGIC;
-       DP : out STD_LOGIC;
-       AN1 : out STD_LOGIC;
-       AN2 : out STD_LOGIC;
-       AN3 : out STD_LOGIC;
-       AN4 : out STD_LOGIC
+    port ( clk : in std_logic;
+       reset : in std_logic;
+       binary_value : in std_logic_vector (8 downto 0);
+       ca : out std_logic;
+       cb : out std_logic;
+       cc : out std_logic;
+       cd : out std_logic;
+       ce : out std_logic;
+       cf : out std_logic;
+       cg : out std_logic;
+       dp : out std_logic;
+       an1 : out std_logic;
+       an2 : out std_logic;
+       an3 : out std_logic;
+       an4 : out std_logic
        );
 end component;
        
---Inputs
-signal TEST_INPUT : std_logic_vector(9 downto 0) := (others => '0'); -- Don't know how to use generics here
-signal CLK : STD_LOGIC := '0';
-signal RST : std_logic := '0';
+--inputs
+signal test_input : std_logic_vector(8 downto 0) := (others => '0'); -- don't know how to use generics here
+signal clk : std_logic := '0';
+signal rst : std_logic := '0';
 
---Outputs
- signal     CA :  STD_LOGIC:= '0';
-  signal     CB :  STD_LOGIC:= '0';
- signal      CC :  STD_LOGIC:= '0';
- signal      CD :  STD_LOGIC:= '0';
- signal      CE :  STD_LOGIC:= '0';
- signal      CF :  STD_LOGIC:= '0';
-signal       CG :  STD_LOGIC:= '0';
-signal       DP :  STD_LOGIC:= '0';
- signal      AN1 :  STD_LOGIC:= '0';
-signal       AN2 :  STD_LOGIC:= '0';
- signal      AN3 :  STD_LOGIC:= '0';
-signal       AN4 :  STD_LOGIC:= '0';
+--outputs
+signal     ca :  std_logic:= '0';
+signal     cb :  std_logic:= '0';
+signal      cc :  std_logic:= '0';
+signal      cd :  std_logic:= '0';
+signal      ce :  std_logic:= '0';
+signal      cf :  std_logic:= '0';
+signal       cg :  std_logic:= '0';
+signal       dp :  std_logic:= '0';
+signal      an1 :  std_logic:= '0';
+signal       an2 :  std_logic:= '0';
+signal      an3 :  std_logic:= '0';
+signal       an4 :  std_logic:= '0';
 
--- Clock period definitions
+-- clock period definitions
 constant clk_period : time := 10 ns;  
 
+signal test_output : std_logic_vector(6 downto 0);
 
-BEGIN 
+begin 
 
-uut: sevensegment_controller PORT MAP (
+uut: sevensegment_controller port map (
 	clk => clk,
-	reset => RST,
-	Binary_Value => TEST_INPUT,
-	CA => CA,
-	CB => CB,
-	CC => CC,
-	CD => CD,
-	CE => CE,
-	CF => CF,
-	CG => CG,
-	DP => DP,
-	AN1 => AN1,
-	AN2 => AN2,
-	AN3 => AN3,
-	AN4 => AN4
+	reset => rst,
+	binary_value => test_input,
+	ca => ca,
+	cb => cb,
+	cc => cc,
+	cd => cd,
+	ce => ce,
+	cf => cf,
+	cg => cg,
+	dp => dp,
+	an1 => an1,
+	an2 => an2,
+	an3 => an3,
+	an4 => an4
     
 
     );
 
    clk_process : process
    begin
-		CLK <= '0';
+		clk <= '0';
 		wait for clk_period/2;
-		CLK <= '1';
+		clk <= '1';
 		wait for clk_period/2;
    end process; 
 
+ test_output <= ca & cb & cc & cd & ce & cf & cg;
+
 stim_proc : process
    begin       
-    RST <= '0'; wait for 1 ms;
-    RST <= '1'; wait for 1 ms;
-    RST <= '0'; wait for 1 ms;
+    rst <= '0'; wait for 1 ms;
+    rst <= '1'; wait for 1 ms;
+    rst <= '0'; wait for 1 ms;
     	
-    TEST_INPUT <= "0000000000"; wait for 4 ms;
-    TEST_INPUT <= "0000000001"; wait for 4 ms;
-    TEST_INPUT <= "0000000010"; wait for 4 ms;
-    TEST_INPUT <= "0000000011"; wait for 4 ms;
-    TEST_INPUT <= "0000000100"; wait for 4 ms;
-    TEST_INPUT <= "0000000101"; wait for 4 ms;
+    test_input <= "000000000"; wait for 4 ms;
+    test_input <= "000000001"; wait for 4 ms;
+    test_input <= "000000010"; wait for 4 ms;
+    test_input <= "000000011"; wait for 4 ms;
+    test_input <= "000000100"; wait for 4 ms;
+    test_input <= "000000101"; wait for 4 ms;
     
-    RST <= '1'; wait for 4 ns;
-    RST <= '0';
+    rst <= '1'; wait for 4 ns;
+    rst <= '0';
     wait;
    end process;
-END;
+end;

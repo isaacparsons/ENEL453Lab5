@@ -1,17 +1,17 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
 
-entity clkkHz is
-    Port (
-        clk_in : in  STD_LOGIC;
-        reset  : in  STD_LOGIC;
-        clk_out: out STD_LOGIC
+entity kHz_clk is
+    port (
+        clk_in : in  std_logic;
+        reset  : in  std_logic;
+        clk_out: out std_logic
     );
-end clkkHz;
+end kHz_clk;
 
-architecture Behavioral of clkkHz is
-    signal i_clk_out: STD_LOGIC;
+architecture behavioral of kHz_clk is
+    signal i_clk_out: std_logic;
     signal count : std_logic_vector (15 downto 0);
 begin
     frequency_divider: process (reset, clk_in) begin
@@ -20,7 +20,7 @@ begin
             count <= (others => '0');
         elsif rising_edge(clk_in) then
             if (count = "1100001101001111") then --499,999
-                i_clk_out <= NOT(i_clk_out);
+                i_clk_out <= not(i_clk_out);
                 count <= (others => '0');
             else
                 count <= count + '1';
@@ -29,4 +29,4 @@ begin
     end process;
     
     clk_out <= i_clk_out;
-end Behavioral;
+end behavioral;
