@@ -53,7 +53,7 @@ architecture behavior of tb_bin2bcd is
       wait for clk_period/2;
   end process; 
    
-  full_number <= i_cm_tens & i_cm_ones & i_cm_tenths & i_cm_hundredths;
+  full_number <= i_cm_tens & i_cm_ones & i_cm_tenths;
 
   stim_proc : process
     begin       
