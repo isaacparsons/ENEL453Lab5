@@ -3,9 +3,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity ss_hub is
 Port ( 		clk   : in STD_LOGIC;
-			reset : in STD_LOGIC; -- BTNC
-			op_comp : in STD_LOGIC;
-			to_filter : out STD_LOGIC;
+			reset : in STD_LOGIC; -- U17
+			op_comp : in STD_LOGIC; --JB1
+			to_filter : out STD_LOGIC; --JB0
 			
 			--sevensegment stuff
 			CA : out  STD_LOGIC;
@@ -22,7 +22,7 @@ Port ( 		clk   : in STD_LOGIC;
 			AN4 : out STD_LOGIC
 						
 			   );
-end sevensegment;
+end ss_hub;
 
 architecture Behavioral of ss_hub is
 --Signals:
@@ -32,10 +32,9 @@ signal i_locked_amp: std_logic_vector(8 downto 0);
 
 --Components:
 component sevensegment_controller
-	Generic(WIDTH : integer := 10);
 	Port ( clk : in STD_LOGIC;
 		   reset : in STD_LOGIC;
-		   Binary_Value : in STD_LOGIC_VECTOR (WIDTH-1 downto 0);
+		   Binary_Value : in STD_LOGIC_VECTOR (8 downto 0);
 		   CA : out STD_LOGIC;
 		   CB : out STD_LOGIC;
 		   CC : out STD_LOGIC;
@@ -47,7 +46,7 @@ component sevensegment_controller
 		   AN1 : out STD_LOGIC;
 		   AN2 : out STD_LOGIC;
 		   AN3 : out STD_LOGIC;
-		   AN4 : out STD_LOGIC
+		   AN4 : out STD_LOGIC--;
 		   );
 end component;
 
@@ -57,6 +56,7 @@ component saw_wave
 			outamplitude : out integer;
 			waveform     : out STD_LOGIC--;
 			);
+end component;
 			
 component amp_lock
 	Port (	clk   : in STD_LOGIC;
@@ -65,7 +65,7 @@ component amp_lock
 			saw_amp    : in integer;
 			locked_amp : out std_logic_vector(8 downto 0)--;
 			);
-
+end component;
 
 begin 
 
@@ -89,6 +89,7 @@ comp_check: amp_lock
 				);
 
 ss_top: sevensegment_controller
+	PORT MAP (
 		  clk => clk,
 		  reset => reset,
 		  Binary_Value => i_locked_amp,
@@ -103,6 +104,6 @@ ss_top: sevensegment_controller
 		  AN1 => AN1,
 		  AN2 => AN2,
 		  AN3 => AN3,
-		  AN4 => AN4
+		  AN4 => AN4--,
 		  );
 end Behavioral;
