@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity pwm_gen is
     Port ( clk   : in  STD_LOGIC;
-		   duty_cycle: in integer; -- between 0 and 370;
+		   duty_cycle: in integer; -- between 0 and max_count;
 		   reset       : in  STD_LOGIC;
 		   waveform    : out STD_LOGIC
 		  );

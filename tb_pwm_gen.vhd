@@ -12,7 +12,7 @@ ARCHITECTURE behavior OF tb_pwm_gen IS
  
     COMPONENT pwm_gen
     Port ( clk   : in  STD_LOGIC;
-		   duty_cycle : integer;
+		   duty_cycle : in integer;
 		   reset : in  STD_LOGIC;
 		   waveform : out STD_LOGIC
 		  );
