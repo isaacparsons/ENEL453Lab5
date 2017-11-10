@@ -1,77 +1,75 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
   
-ENTITY tb_bin2bcd IS
-END tb_bin2bcd;
+entity tb_bin2bcd is
+end tb_bin2bcd;
  
-ARCHITECTURE behavior OF tb_bin2bcd IS 
- 
-    COMPONENT bin2bcd
-    
-    --GENERIC MAP(WIDTH => 10);
-    Generic(WIDTH : integer := 10); --Number of bits to represent ADC_BIN_OUT
-    Port ( CLK : in STD_LOGIC;                                      
-           RST : in STD_LOGIC;
-           ACD_BIN_OUT : in  STD_LOGIC_VECTOR (WIDTH-1 downto 0);   -- ADC output value as a binary string              
-           CM_TENS : out  STD_LOGIC_VECTOR (3 downto 0);            -- Needs to display 0-4
-           CM_ONES : out  STD_LOGIC_VECTOR (3 downto 0);            -- Needs to display 0-9
-           CM_TENTHS : out  STD_LOGIC_VECTOR (3 downto 0);          -- Needs to display 0-9
-           CM_HUNDREDTHS : out  STD_LOGIC                           -- Always display 0
-          );
-    END COMPONENT; 
-       
-   --Inputs
-   signal TEST_INPUT : std_logic_vector(9 downto 0) := (others => '0'); -- Don't know how to use generics here
-   signal CLK : STD_LOGIC := '0';
-   signal RST : std_logic := '0';
-   
- 	--Outputs
-   signal i_TENS : std_logic_vector(3 downto 0);
-   signal i_ONES : std_logic_vector(3 downto 0);
-   signal i_TENTHS : std_logic_vector(3 downto 0);
-   signal i_HUNDREDTHS : std_logic;
-   
-   -- Clock period definitions
-   constant clk_period : time := 10 ns;  
-   
-   -- Miscellaneous
-   signal full_number : std_logic_vector(11 downto 0);
-BEGIN 
-   uut: bin2bcd PORT MAP (
-          CLK => CLK,
-          RST => RST,
-          ACD_BIN_OUT => TEST_INPUT,
-          CM_TENS => i_TENS,
-          CM_ONES => i_ONES,
-          CM_TENTHS => i_TENTHS,
-          CM_HUNDREDTHS => i_HUNDREDTHS
-        );
-        
-   clk_process : process
-   begin
-		CLK <= '0';
-		wait for clk_period/2;
-		CLK <= '1';
-		wait for clk_period/2;
-   end process; 
-   
-   full_number <= i_TENS & i_ONES & i_TENTHS;
+architecture behavior of tb_bin2bcd is 
 
-stim_proc : process
-   begin       
-    RST <= '0'; wait for 100 ns;
-    RST <= '1'; wait for 100 ns;
-    RST <= '0'; wait for 100 ns;
+  component bin2bcd	
+    port ( clk : in std_logic;                                      
+           rst : in std_logic;
+           acd_bin_out : in std_logic_vector (8 downto 0);   -- adc output value as a binary string              
+           cm_tens : out std_logic_vector (3 downto 0);            -- xooo
+           cm_ones : out std_logic_vector (3 downto 0);            -- oxoo
+           cm_tenths : out std_logic_vector (3 downto 0);          -- ooxo
+           cm_hundredths : out std_logic_vector (3 downto 0)      -- ooox
+         );
+  end component; 
+       
+  --inputs
+  signal test_input : std_logic_vector(8 downto 0) := (others => '0'); -- don't know how to use generics here
+  signal clk : std_logic := '0';
+  signal rst : std_logic := '0';
+
+  --outputs
+  signal i_cm_tens : std_logic_vector(3 downto 0);
+  signal i_cm_ones : std_logic_vector(3 downto 0);
+  signal i_cm_tenths : std_logic_vector(3 downto 0);
+  signal i_cm_hundredths : std_logic_vector(3 downto 0);
+
+  -- clock period definitions
+  constant clk_period : time := 10 ns;  
+
+  -- miscellaneous
+  signal full_number : std_logic_vector(11 downto 0);
+
+  begin 	
+  uut: bin2bcd
+    port map ( clk => clk,
+               rst => rst,
+               acd_bin_out => test_input,
+               cm_tens => i_cm_tens,
+               cm_ones => i_cm_ones,
+               cm_tenths => i_cm_tenths,
+               cm_hundredths => i_cm_hundredths
+             );
+			
+  clk_process : process
+    begin
+      clk <= '0';
+      wait for clk_period/2;
+      clk <= '1';
+      wait for clk_period/2;
+  end process; 
+   
+  full_number <= i_cm_tens & i_cm_ones & i_cm_tenths;
+
+  stim_proc : process
+    begin       
+      rst <= '0'; wait for 100 ns;
+      rst <= '1'; wait for 100 ns;
+      rst <= '0'; wait for 100 ns;
     	
-    TEST_INPUT <= "0000000000"; wait for 100ns;
-    TEST_INPUT <= "0000000001"; wait for 100ns;
-    TEST_INPUT <= "0000000010"; wait for 100ns;
-    TEST_INPUT <= "0000000011"; wait for 100ns;
-    TEST_INPUT <= "0110010000"; wait for 100ns;
-    TEST_INPUT <= "0110010001"; wait for 100ns;
+      test_input <= "000000000"; wait for 100ns;
+      test_input <= "000000001"; wait for 100ns;
+      test_input <= "000000010"; wait for 100ns;
+      test_input <= "000000011"; wait for 100ns;
+      test_input <= "110010000"; wait for 100ns;
+      test_input <= "110010001"; wait for 100ns;
     
-    RST <= '1'; wait for 100 ns;
-    RST <= '0';
-    wait;
-   end process;
-END;
+      rst <= '1'; wait for 100 ns;
+      rst <= '0';
+      wait;
+  end process;
+end behavior;
