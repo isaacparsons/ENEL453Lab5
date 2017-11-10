@@ -31,9 +31,9 @@ begin
         temp := (others => '0');
     elsif (rising_edge(clk)) then    
         bcd := (others => '0'); -- zero the bcd variable     
-        temp(width-1 downto 0) := acd_bin_out; -- read input into temp variable
+        temp(8 downto 0) := acd_bin_out; -- read input into temp variable
             
-        for i in 0 to width-1 loop -- cycle width times as we have width input bits   
+        for i in 0 to 8 loop -- cycle 9 times as we have 9 input bits   
           if bcd(3 downto 0) > 4 then 
             bcd(3 downto 0) := bcd(3 downto 0) + 3;
           end if;
