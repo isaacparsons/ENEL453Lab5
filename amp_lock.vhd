@@ -8,7 +8,11 @@ entity amp_lock is
 			   reset 	: in  STD_LOGIC;
 			   comp_state : in STD_LOGIC;
 			   saw_amp 	: in integer;
+<<<<<<< HEAD
 			   locked_amp: out std_logic_vector (8 downto 0)
+=======
+			   locked_amp: out std_logic_vector (8 downto 0);
+>>>>>>> refs/remotes/origin/master
 			 );
 end amp_lock;
 
@@ -28,7 +32,11 @@ begin
         
     elsif(rising_edge(clk)) then
         if(lastState = '0' and i_comp_state = '1') then      
+<<<<<<< HEAD
              i_locked_amp <= std_logic_vector(to_unsigned(saw_amp, 9));
+=======
+             i_locked_amp <= to_unsigned(saw_amp, 9);;
+>>>>>>> refs/remotes/origin/master
 	    end if;
         lastState <= i_comp_state;
     end if;
