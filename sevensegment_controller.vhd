@@ -114,7 +114,7 @@ port map(
     data => digit_to_display
     );
 
-digit_mux: process(i_an, i_cm_hundredths, i_cm_tenths, i_cm_ones, i_cm_tens)
+digit_mux: process(i_an, i_cm_tens, i_cm_ones, i_cm_tenths, i_cm_hundredths)
 begin
     case(i_an) is
         when "0001" => digit_to_display <= i_cm_hundredths;

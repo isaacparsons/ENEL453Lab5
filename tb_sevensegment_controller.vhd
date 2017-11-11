@@ -47,7 +47,8 @@ signal       an4 :  std_logic:= '0';
 -- clock period definitions
 constant clk_period : time := 10 ns;  
 
-signal test_output : std_logic_vector(6 downto 0);
+signal segment_output : std_logic_vector(3 downto 0);
+signal digit_output : std_logic_vector(10 downto 0);
 
 begin 
 
@@ -79,7 +80,18 @@ uut: sevensegment_controller port map (
 		wait for clk_period/2;
    end process; 
 
- test_output <= ca & cb & cc & cd & ce & cf & cg;
+  segment_output <= (not an4) & (not an3) & (not an2) & (not an1);
+ digit_output(0) <= (not ca) and (not cb) and (not cc) and (not cd) and (not ce) and (not cf) and (cg);
+ digit_output(1) <= (ca) and (not cb) and (not cc) and (cd) and (ce) and (cf) and (cg);
+ digit_output(2) <= (not ca) and (not cb) and (cc) and (not cd) and (not ce) and (cf) and (not cg);
+ digit_output(3) <= (not ca) and (not cb) and (not cc) and (not cd) and (ce) and (cf) and (not cg);
+ digit_output(4) <= (ca) and (not cb) and (not cc) and (cd) and (ce) and (not cf) and (not cg);
+ digit_output(5) <= (not ca) and (cb) and (not cc) and (not cd) and (ce) and (not cf) and (not cg);
+ digit_output(6) <= (not ca) and (cb) and (not cc) and (not cd) and (not ce) and (not cf) and (not cg);
+ digit_output(7) <= (not ca) and (not cb) and (not cc) and (cd) and (ce) and (cf) and (cg);
+ digit_output(8) <= (not ca) and (not cb) and (not cc) and (not cd) and (not ce) and (not cf) and (not cg);
+ digit_output(9) <= (not ca) and (not cb) and (not cc) and (cd) and (ce) and (not cf) and (not cg);
+ digit_output(10) <= (not ca) and (cb) and (cc) and (not cd) and (not ce) and (not cf) and (not cg);
 
 stim_proc : process
    begin       
@@ -93,6 +105,7 @@ stim_proc : process
     test_input <= "000000011"; wait for 4 ms;
     test_input <= "000000100"; wait for 4 ms;
     test_input <= "000000101"; wait for 4 ms;
+    test_input <= "111111111"; wait for 4 ms;
     
     rst <= '1'; wait for 4 ns;
     rst <= '0';
