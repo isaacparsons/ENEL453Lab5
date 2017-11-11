@@ -1,0 +1,15 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../ENEL453Lab5-master/amp_lock.vhd" \
+"../../../../../ENEL453Lab5-master/bin2bcd.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/clkkHz.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/pwm_gen.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/saw_wave.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/sevensegment.vhd" \
+"../../../../../ENEL453Lab5-master/sevensegment_controller.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/sevensegment_selector.vhd" \
+"../../../../../ENEL453Lab5-master/ss_hub.vhd" \
+"../../../../../ENEL453Lab5-isaacBranch/HubTb.vhd" \
+
+# Do not sort compile order
+nosort

@@ -15,6 +15,13 @@ architecture behaviour of lettersLab5testBench is
 			scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
 			--kHz: in STD_LOGIC; 
+			
+						--buttons
+            upBtn: in std_logic;
+            downBtn: in std_logic;
+            leftBtn: in std_logic;
+            rightBtn: in std_logic;
+            
 			binaryLetterLookupValue: in STD_LOGIC_VECTOR(8 downto 0);
 			red: out STD_LOGIC_VECTOR(3 downto 0);
 			blue: out STD_LOGIC_VECTOR(3 downto 0);
@@ -23,13 +30,12 @@ architecture behaviour of lettersLab5testBench is
 	end component;
 	
 	component upcounter
-	Generic ( 	max: integer:= 4;				
-                            WIDTH: integer:= 3);
+	Generic ( 	max: integer:= 480;				
+                            WIDTH: integer:= 11);
 	Port (clk : in  STD_LOGIC;
                 reset : in  STD_LOGIC;
                         -- removed enable 
-                upsignalenable : in STD_LOGIC;
-                downsignalenable : in STD_LOGIC;
+                enable : in STD_LOGIC;
                 value: out STD_LOGIC_VECTOR(WIDTH-1 downto 0));
     end component;
     
@@ -47,8 +53,13 @@ signal green: STD_LOGIC_VECTOR(3 downto 0);
 
 signal scanxinInternal: std_logic_vector(10 downto 0);
 
-signal upsignalenable: std_logic:= '1';
-signal downsignalenable: std_logic:= '0';
+signal enable: std_logic:= '1';
+
+
+signal upBtn: std_logic:= '0';
+signal downBtn: std_logic:= '0';
+signal leftBtn: std_logic:= '0';
+signal rightBtn: std_logic:= '0';
 	  
 		  
 begin 
@@ -60,8 +71,7 @@ uut2: upcounter Generic Map(
     Port Map(
     clk => clk,
     reset => reset, 
-    upsignalenable => upsignalenable,
-    downsignalenable => downsignalenable,
+    enable => enable,
     value => scanxinInternal);
 
 
@@ -71,6 +81,10 @@ uut: lettersLab5 Port Map(
     scan_line_x => scan_line_x,
     scan_line_y => scan_line_y,
     letter_color => letter_color,
+    upBtn => upBtn,
+    downBtn => downBtn,
+    leftBtn => leftBtn,
+    rightBtn => rightBtn,
     binaryLetterLookupValue => binaryLetterLookupValue,
     red => red,
     blue => blue,
@@ -102,6 +116,18 @@ uut: lettersLab5 Port Map(
     
           wait for clk_period*100;
        end process;
+       
+       stim_btn: process
+       begin
+       
+        wait for 400 ns;
+        rightBtn <= '1';
+        wait for 2 ns;
+        rightBtn <= '0';
+        
+        end process;
+       
+       
        
 scan_line_x <= scanxinInternal;
 end behaviour;
