@@ -9,18 +9,17 @@ end lettersLab5testBench;
 architecture behaviour of lettersLab5testBench is
 
 	component lettersLab5
-    Port ( 	clk : in  STD_LOGIC;
+	
+	Port ( 	clk : in  STD_LOGIC;
 			reset : in  STD_LOGIC;
 			scan_line_x: in STD_LOGIC_VECTOR(10 downto 0);
 			scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
 			--kHz: in STD_LOGIC; 
+			scale : in std_logic_vector(3 downto 0);
 			
-						--buttons
-            upBtn: in std_logic;
-            downBtn: in std_logic;
-            leftBtn: in std_logic;
-            rightBtn: in std_logic;
+			box_x_positionIn: in std_logic_vector(9 downto 0);
+            box_y_positionIn: in std_logic_vector(9 downto 0);
             
 			binaryLetterLookupValue: in STD_LOGIC_VECTOR(8 downto 0);
 			red: out STD_LOGIC_VECTOR(3 downto 0);
@@ -38,6 +37,22 @@ architecture behaviour of lettersLab5testBench is
                 enable : in STD_LOGIC;
                 value: out STD_LOGIC_VECTOR(WIDTH-1 downto 0));
     end component;
+	
+	component VGAMoveLetters Port (clk : in  STD_LOGIC;
+				   reset : in  STD_LOGIC;
+				   btnUp : in std_logic;
+				   btnDown : in std_logic;
+				   btnLeft : in std_logic;
+				   btnRight : in std_logic;
+				   
+				   increaseScale : in std_logic;
+				   decreaseScale : in std_logic;
+				   
+				   box_x_positionOut : out std_logic_vector(9 downto 0);
+				   box_y_positionOut : out std_logic_vector(9 downto 0);
+				   scaleOut : out std_logic_vector(3 downto 0)
+				 );
+	end component;
     
 constant clk_period : time := 24000 ns;
 signal clk : std_logic := '0';
@@ -55,14 +70,23 @@ signal scanxinInternal: std_logic_vector(10 downto 0);
 
 signal enable: std_logic:= '1';
 
+signal scale : std_logic_vector(3 downto 0):= "0011"; -- scale is 3
 
-signal upBtn: std_logic:= '0';
-signal downBtn: std_logic:= '0';
-signal leftBtn: std_logic:= '0';
-signal rightBtn: std_logic:= '0';
+signal btnUp: std_logic:= '0';
+signal btnDown: std_logic:= '0';
+signal btnLeft: std_logic:= '0';
+signal btnRight: std_logic:= '0';
+
+signal increaseScale: std_logic:= '0';
+signal decreaseScale: std_logic:= '0';
+signal box_x_positionOut: std_logic_vector(9 downto 0):= "0000000000";
+signal box_y_positionOut: std_logic_vector(9 downto 0):= "0000000000";
+signal scaleOut: std_logic_vector(3 downto 0):= "0011";
+
 	  
 		  
 begin 
+
 
 uut2: upcounter Generic Map(
     max => 480,
@@ -75,22 +99,34 @@ uut2: upcounter Generic Map(
     value => scanxinInternal);
 
 
-uut: lettersLab5 Port Map(
+uut: lettersLab5
+
+	Port Map(
     clk => clk,
     reset => reset, 
     scan_line_x => scan_line_x,
     scan_line_y => scan_line_y,
     letter_color => letter_color,
-    upBtn => upBtn,
-    downBtn => downBtn,
-    leftBtn => leftBtn,
-    rightBtn => rightBtn,
+	scale => scale,
+	box_x_positionIn => box_x_positionOut,
+	box_y_positionIn => box_y_positionOut,
     binaryLetterLookupValue => binaryLetterLookupValue,
     red => red,
     blue => blue,
     green => green);
     
-    
+uut3: VGAmoveLetters Port Map(
+        clk => clk,
+        reset => reset, 
+        btnUp => btnUp,
+        btnDown => btnDown,
+        btnLeft => btnLeft,
+        btnRight => btnRight,
+        increaseScale => increaseScale,
+        decreaseScale => decreaseScale,
+        box_x_positionOut => box_x_positionOut,
+        box_y_positionOut => box_y_positionOut,
+        scaleOut => scaleOut);   
     
 -- Clock process definitions
        clk_process :process
@@ -121,9 +157,9 @@ uut: lettersLab5 Port Map(
        begin
        
         wait for 400 ns;
-        rightBtn <= '1';
+        btnRight <= '1';
         wait for 2 ns;
-        rightBtn <= '0';
+        btnRight <= '0';
         
         end process;
        

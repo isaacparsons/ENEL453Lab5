@@ -4,18 +4,17 @@ USE ieee.numeric_std.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity lettersLab5 is
-    Port ( 	clk : in  STD_LOGIC;
+	
+	Port ( 	clk : in  STD_LOGIC;
 			reset : in  STD_LOGIC;
 			scan_line_x: in STD_LOGIC_VECTOR(10 downto 0);
 			scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
 			binaryLetterLookupValue: in STD_LOGIC_VECTOR(8 downto 0);
+			scale : in std_logic_vector(3 downto 0);
 			
-			--buttons
-			upBtn: in std_logic;
-			downBtn: in std_logic;
-			leftBtn: in std_logic;
-			rightBtn: in std_logic;
+            box_x_positionIn: in std_logic_vector(9 downto 0);
+            box_y_positionIn: in std_logic_vector(9 downto 0);
 			
 			red: out STD_LOGIC_VECTOR(3 downto 0);
 			blue: out STD_LOGIC_VECTOR(3 downto 0);
@@ -35,8 +34,8 @@ signal SelectedLetterThirdDigit: LetterMatrix;
 --current letter being "drawn" by the vga
 signal currentCharacter: LetterMatrix;
 
-constant scale: integer:= 3; -- chooses the size of the letters.
 signal scale_counter: integer:= 0;
+signal scaleInt : integer;
 
 
 --for accessing letter number matrix's, LNX is letter number where X = 1,2,3
@@ -46,8 +45,9 @@ signal xindexforEachLetter: integer:= 0;
 signal xtotalIndex: integer:= 0;
 signal ytotalIndex: integer:= 0;
 
-signal box_x_position: integer:= 0;
-signal box_y_position: integer:= 0;
+signal box_x_positionInt: integer:= 0;
+signal box_y_positionInt: integer:= 0;
+
 
 
 signal zero: LetterMatrix:= ((0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0),		
@@ -252,9 +252,10 @@ signal M: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
  
  --add buttons to move the letters around up down left and right to sensitivity list
  begin
+ scaleInt <= to_integer(unsigned(scale));
  
  
-pixelOnorOff: process(scan_line_x, scan_line_y) begin
+pixelOnorOff: process(scan_line_x, scan_line_y, box_x_positionInt, box_y_positionInt) begin
 	-- case statement or something to choose 3 letters(numbers). result will give values to
 	-- SelectedLetterFirstDigit, SelectedLetterSecondDigit, and SelectedLetterThirdDigit
 
@@ -266,9 +267,9 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
 	else
 	
         if(scan_line_x < "00111100000") then
-            xtotalIndex <= xtotalIndex + 1;
+            xtotalIndex <= box_x_positionInt;
         -- less than 480 (width of vga display)
-            if(scale_counter = scale - 1) then
+            if(scale_counter = scaleInt - 1) then
                     scale_counter <= 0;
                     xindexforEachLetter<= xindexforEachLetter+1;
                 else
@@ -283,60 +284,63 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
                 ytotalIndex <= ytotalIndex + 1;
             else
                 ytotalIndex<= 0;
+                -- only update box_positions after a full cycle
+                box_x_positionInt <= to_integer(unsigned(box_x_positionIn));
+                box_y_positionInt <= to_integer(unsigned(box_y_positionIn));
             end if;
         end if;
         
         --reset the x index when in new character
-        if(xtotalIndex = box_x_position + (34*scale) - 1) then
+        if(scan_line_x = box_x_positionInt + (34*scaleInt) - 1) then
                xindexforEachLetter <= 0;
-        elsif(xtotalIndex = box_x_position) then
+        elsif(scan_line_x = box_x_positionInt) then
               xindexforEachLetter <= 0;
-        elsif(xtotalIndex = box_x_position + (17*scale) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (17*scaleInt) - 1) then
               xindexforEachLetter <= 0;
-        elsif(xtotalIndex = box_x_position + (51*scale) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (51*scaleInt) - 1) then
               xindexforEachLetter <= 0;  
-        elsif(xtotalIndex = box_x_position + (68*scale) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (68*scaleInt) - 1) then
               xindexforEachLetter <= 0;
-        elsif(xtotalIndex = box_x_position + (85*scale) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (85*scaleInt) - 1) then
               xindexforEachLetter <= 0;
-        elsif(xtotalIndex >= (box_x_position + (102 * scale) - 1)) then
+        elsif(scan_line_x >= (box_x_positionInt + (102 * scaleInt) - 1)) then
               xindexforEachLetter <= 0;
         end if;
         
         --first character
-        if(xtotalIndex >= box_x_position and xtotalIndex < (box_x_position + (17* scale))) then
+        if(scan_line_x >= box_x_positionInt and scan_line_x < (box_x_positionInt + (17* scaleInt))) then
             currentCharacter <= SelectedLetterFirstDigit;
         
         --second character
-        elsif(xtotalIndex >= (box_x_position + (17*scale)) and xtotalIndex < (box_x_position + (34* scale))) then
+        elsif(scan_line_x >= (box_x_positionInt + (17*scaleInt)) and scan_line_x < (box_x_positionInt + (34* scaleInt))) then
             currentCharacter <= SelectedLetterSecondDigit;
         
         --point 
-        elsif(xtotalIndex >= (box_x_position + (34*scale)) and xtotalIndex < (box_x_position + (51* scale))) then
+        elsif(scan_line_x >= (box_x_positionInt + (34*scaleInt)) and scan_line_x < (box_x_positionInt + (51* scaleInt))) then
             currentCharacter <= point;  
             
         -- third character      
-        elsif(xtotalIndex >= (box_x_position + (51*scale)) and xtotalIndex < (box_x_position + (68* scale))) then
+        elsif(scan_line_x >= (box_x_positionInt + (51*scaleInt)) and scan_line_x < (box_x_positionInt + (68* scaleInt))) then
             currentCharacter <= SelectedLetterThirdDigit;
             
         -- "C"
-        elsif(xtotalIndex >= (box_x_position + (68*scale)) and xtotalIndex < (box_x_position + (85* scale))) then
+        elsif(scan_line_x >= (box_x_positionInt + (68*scaleInt)) and scan_line_x < (box_x_positionInt + (85* scaleInt))) then
             currentCharacter <= C;
         
         -- "M"
-        elsif(xtotalIndex >= (box_x_position + (85*scale)) and xtotalIndex < (box_x_position + (102* scale))) then
+        elsif(scan_line_x >= (box_x_positionInt + (85*scaleInt)) and scan_line_x < (box_x_positionInt + (102* scaleInt))) then
             currentCharacter <= M;
             
         end if;
             
-        
-        
     
+        --if((scan_line_x <= (box_x_positionInt + (102* scaleInt))) and (scan_line_x >= box_x_positionInt)) then
+        --    if((currentCharacter(xindexforEachLetter, ytotalIndex) = 1) and (scan_line_x < 17 * 6 * scaleInt)) then
+        --           pixel_color <= letter_color;
+        --    else
+        --           pixel_color <= "111111111111";
+        --    end if;
         
-        --if((currentCharacter(xindexforEachLetter, ytotalIndex) = 1) and x_scan_line < 17 * 6 * scale) then
-        --    pixel_color <= letter_color;
-        --else
-         --   pixel_color <= "111111111111";
         --end if;
     end if;
 								
@@ -346,37 +350,6 @@ blue  <= pixel_color(3 downto 0);
 end process;
 
 
-
-
-
-moveBox: process(upBtn, downBtn, leftBtn, rightBtn, clk, reset) begin
-    if(reset = '1') then
-        box_x_position <= 0;
-        box_y_position <= 0;
-    elsif(rising_edge(clk)) then
-        if(upBtn = '1'and (box_y_position < 480)) then
-            box_y_position <= box_y_position + 1;
-            if(ytotalindex > 0) then
-                ytotalindex<= ytotalindex -1;
-            end if;
-        elsif((downBtn = '1') and (box_y_position > 0)) then
-            box_y_position <= box_y_position - 1;
-            if(ytotalindex < 640) then
-                ytotalindex<= ytotalindex +1;
-            end if;
-        elsif((leftBtn = '1') and (box_x_position > 0)) then
-            box_x_position <= box_x_position - 1;
-            if(xtotalindex > 0) then
-                xtotalindex<= ytotalindex -1;
-            end if;
-        elsif((rightBtn = '1') and (box_x_position < 640)) then
-            box_x_position <= box_x_position + 1;
-            if(xtotalindex < 480) then
-                xtotalindex<= xtotalindex +1;
-            end if;
-        end if;
-    end if;
-end process;
 
  
 end behaviour;
