@@ -32,7 +32,7 @@ begin -- sensitive to changing data
 		when "0111" => decoded_bits <= "1110000"; -- shows seven
 		when "1000" => decoded_bits <= "1111111"; -- shows eight
 		when "1001" => decoded_bits <= "1111011"; -- shows nine
-
+        when "1111" => decoded_bits <= "0000000"; -- shows blank
 		when others => decoded_bits <= "1001111"; -- for everything else, e for error
 	end case;
 end process;

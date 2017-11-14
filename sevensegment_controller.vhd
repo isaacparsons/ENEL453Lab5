@@ -130,5 +130,5 @@ an2 <= not i_an(1);
 an3 <= not i_an(2);
 an4 <= not i_an(3);
 
---i_dp <= i_an(2);
+i_dp <= i_an(2);
 end behavioral;

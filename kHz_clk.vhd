@@ -18,7 +18,7 @@ begin
         if (reset = '1') then
             i_clk_out <= '0';
             count <= (others => '0');
-        elsif rising_edge(clk_in) then
+        elsif (rising_edge(clk_in) and (reset = '0')) then
             if (count = "1100001101001111") then --499,999
                 i_clk_out <= not(i_clk_out);
                 count <= (others => '0');
