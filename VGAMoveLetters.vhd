@@ -37,7 +37,7 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
 		ibox_y_pos 	<= (others=> '0');
 
 	elsif (rising_edge(clk)) then 			-- When counter is enabled
-        if(btnUp = '1'and (ibox_y_pos < 480)) then
+        if(btnUp = '1' and (ibox_y_pos < (480 - (17*6*currentScale)))) then
             ibox_y_pos <= ibox_y_pos + 1;
 			
         elsif((btnDown = '1') and (ibox_y_pos > 0)) then
@@ -46,7 +46,7 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
         elsif((btnLeft = '1') and (ibox_x_pos > 0)) then
             ibox_x_pos <= ibox_x_pos - 1;
             
-        elsif((btnRight = '1') and (ibox_x_pos < 640)) then
+        elsif((btnRight = '1') and (ibox_x_pos < (640 - (14*currentScale)))) then
             ibox_x_pos <= ibox_x_pos + 1;
             
         end if;
