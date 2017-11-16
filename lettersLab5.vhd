@@ -10,8 +10,11 @@ entity lettersLab5 is
 			scan_line_x: in STD_LOGIC_VECTOR(10 downto 0);
 			scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
-			binaryLetterLookupValue: in STD_LOGIC_VECTOR(8 downto 0);
 			scale : in std_logic_vector(3 downto 0);
+			
+			firstDigit : in std_logic_vector(1 downto 0);
+			secondDigit : in std_logic_vector(3 downto 0);
+			thirdDigit : in std_logic_vector(3 downto 0);
 			
             box_x_positionIn: in std_logic_vector(9 downto 0);
             box_y_positionIn: in std_logic_vector(9 downto 0);
@@ -27,15 +30,56 @@ type LetterMatrix is array(0 to 13, 0 to 16) of integer;
 
 signal pixel_color: std_logic_vector(11 downto 0);
 
-signal SelectedLetterFirstDigit: LetterMatrix; --most significant
-signal SelectedLetterSecondDigit: LetterMatrix;
-signal SelectedLetterThirdDigit: LetterMatrix;
+signal SelectedLetterFirstDigit: LetterMatrix:= ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),		
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                               (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)); --most significant
+signal SelectedLetterSecondDigit: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),		
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                              (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+signal SelectedLetterThirdDigit: LetterMatrix:= ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),		
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                                             (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
 
 --current letter being "drawn" by the vga
 signal currentCharacter: LetterMatrix;
 
 signal scale_counter: integer:= 0;
-signal scaleInt : integer;
+signal scaleInt : integer:= 1;
+
+signal scale_counter_y: integer:= 0;
 
 
 --for accessing letter number matrix's, LNX is letter number where X = 1,2,3
@@ -48,6 +92,10 @@ signal ytotalIndex: integer:= 0;
 signal box_x_positionInt: integer:= 0;
 signal box_y_positionInt: integer:= 0;
 
+signal testInt : integer;
+
+constant rightScreenBound : std_logic_vector(10 downto 0):= "00111011111"; -- 479
+constant downScreenBound : std_logic_vector(10 downto 0):= "01001111111"; -- 639
 
 
 signal zero: LetterMatrix:= ((0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0),		
@@ -254,22 +302,82 @@ signal M: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
  begin
  scaleInt <= to_integer(unsigned(scale));
  
+selectedLetter: process(clk) begin
+    if(rising_edge(clk)) then
+        if(firstDigit = "00") then
+            SelectedLetterFirstDigit <= zero;
+        elsif(firstDigit = "01") then
+            SelectedLetterFirstDigit <= one;
+        elsif(firstDigit = "10") then
+             SelectedLetterFirstDigit <= two;
+        elsif(firstDigit = "11") then
+             SelectedLetterFirstDigit <= three;   
+        end if;
+        
+        --second digit
+        if(secondDigit = "0000") then
+            SelectedLetterSecondDigit <= zero;
+        elsif(secondDigit = "0001") then
+            SelectedLetterSecondDigit <= one;
+        elsif(secondDigit = "0010") then
+             SelectedLetterSecondDigit <= two;
+        elsif(secondDigit = "0011") then
+             SelectedLetterSecondDigit <= three;
+        elsif(secondDigit = "0100") then
+             SelectedLetterSecondDigit <= four;  
+        elsif(secondDigit = "0101") then
+              SelectedLetterSecondDigit <= five;  
+        elsif(secondDigit = "0110") then
+              SelectedLetterSecondDigit <= six;  
+        elsif(secondDigit = "0111") then
+              SelectedLetterSecondDigit <= seven;  
+        elsif(secondDigit = "1000") then
+              SelectedLetterSecondDigit <= eight;  
+        elsif(secondDigit = "1001") then
+              SelectedLetterSecondDigit <= nine;                                                                                                                                                                                                               
+        end if;
+        
+        -- third digit
+        if(thirdDigit = "0000") then
+            SelectedLetterThirdDigit <= zero;
+        elsif(thirdDigit = "0001") then
+            SelectedLetterThirdDigit <= one;
+        elsif(thirdDigit = "0010") then
+             SelectedLetterThirdDigit <= two;
+        elsif(thirdDigit = "0011") then
+             SelectedLetterThirdDigit <= three;
+        elsif(thirdDigit = "0100") then
+             SelectedLetterThirdDigit <= four;  
+        elsif(thirdDigit = "0101") then
+              SelectedLetterThirdDigit <= five;  
+        elsif(thirdDigit = "0110") then
+              SelectedLetterThirdDigit <= six;  
+        elsif(thirdDigit = "0111") then
+              SelectedLetterThirdDigit <= seven;  
+        elsif(thirdDigit = "1000") then
+              SelectedLetterThirdDigit <= eight;  
+        elsif(thirdDigit = "1001") then
+              SelectedLetterThirdDigit <= nine;                                                                                                                                                                                                               
+        end if;
+    
+    end if;
+    
+end process;
  
-pixelOnorOff: process(scan_line_x, scan_line_y, box_x_positionInt, box_y_positionInt) begin
+ 
+pixelOnorOff: process(scan_line_x, scan_line_y) begin
 	-- case statement or something to choose 3 letters(numbers). result will give values to
 	-- SelectedLetterFirstDigit, SelectedLetterSecondDigit, and SelectedLetterThirdDigit
 
 	--select the first number 
 	if(reset = '1') then
-	   xtotalIndex<= 0;
 	   ytotalIndex<= 0;
 	   scale_counter <= 0;
 	else
-	
-        if(scan_line_x < "00111100000") then
-            xtotalIndex <= box_x_positionInt;
+	           
+        if(scan_line_x < rightScreenBound) then
         -- less than 480 (width of vga display)
-            if(scale_counter = scaleInt - 1) then
+            if((scale_counter = scaleInt - 1) or (to_integer(unsigned(scan_line_x)) = box_x_positionInt)) then
                     scale_counter <= 0;
                     xindexforEachLetter<= xindexforEachLetter+1;
                 else
@@ -277,11 +385,18 @@ pixelOnorOff: process(scan_line_x, scan_line_y, box_x_positionInt, box_y_positio
             end if;
         else
             -- if scan_line_x equals 480 increment ytotalIndex
-            xtotalIndex <= 0;
-            xindexforEachLetter <= 0;
-            scale_counter <= 0;
-            if(scan_line_y < "1010000000") then 
-                ytotalIndex <= ytotalIndex + 1;
+            if(scan_line_y < downScreenBound) then
+				if(scan_line_y >= box_y_positionInt) then
+					if(scale_counter_y = scaleInt - 1) then
+						ytotalIndex <= ytotalIndex + 1;
+						scale_counter_y <= 0;
+					else
+						scale_counter_y <= scale_counter_y + 1;
+					end if;
+				else
+					ytotalIndex <= 0;
+				end if;
+			
             else
                 ytotalIndex<= 0;
                 -- only update box_positions after a full cycle
@@ -290,20 +405,21 @@ pixelOnorOff: process(scan_line_x, scan_line_y, box_x_positionInt, box_y_positio
             end if;
         end if;
         
-        --reset the x index when in new character
-        if(scan_line_x = box_x_positionInt + (34*scaleInt) - 1) then
+        -- reset the x index when in new character
+		-- case where box_x_positionInt = 0 and scan_line_x = 0 is handled in the reset of a new x line
+		if(scan_line_x = box_x_positionInt) then
+			   xindexforEachLetter <= 0;
+		elsif(scan_line_x = box_x_positionInt + (34*scaleInt)) then
                xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt) then
+        elsif(scan_line_x = box_x_positionInt + (17*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (17*scaleInt) - 1) then
-              xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (51*scaleInt) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (51*scaleInt)) then
               xindexforEachLetter <= 0;  
-        elsif(scan_line_x = box_x_positionInt + (68*scaleInt) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (68*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (85*scaleInt) - 1) then
+        elsif(scan_line_x = box_x_positionInt + (85*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x >= (box_x_positionInt + (102 * scaleInt) - 1)) then
+        elsif(scan_line_x >= (box_x_positionInt + (102 * scaleInt))) then
               xindexforEachLetter <= 0;
         end if;
         
@@ -333,15 +449,17 @@ pixelOnorOff: process(scan_line_x, scan_line_y, box_x_positionInt, box_y_positio
             
         end if;
             
-    
-        --if((scan_line_x <= (box_x_positionInt + (102* scaleInt))) and (scan_line_x >= box_x_positionInt)) then
-        --    if((currentCharacter(xindexforEachLetter, ytotalIndex) = 1) and (scan_line_x < 17 * 6 * scaleInt)) then
-        --           pixel_color <= letter_color;
-        --    else
-        --           pixel_color <= "111111111111";
-        --    end if;
+		testInt <= currentCharacter(ytotalindex,xindexforEachLetter);
+        if(scan_line_y < box_y_positionInt) then
+			pixel_color <="111111111111";
+		elsif((currentCharacter(ytotalIndex, xindexforEachLetter) = 1)) then
+			pixel_color <= letter_color;
+		else 
+			pixel_color <= letter_color;
+		
+		end if;
         
-        --end if;
+       
     end if;
 								
 red   <= pixel_color(11 downto 8);

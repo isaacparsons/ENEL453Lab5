@@ -11,25 +11,27 @@ end sevensegment_selector;
 
 architecture behavioral of sevensegment_selector is
 	signal d, q: std_logic_vector(3 downto 0);
+    signal  i_state: std_logic;
+    signal  lastState: std_logic;
+
 begin
 
-dffs: process(reset, clk)
+dffs: process(reset, clk, i_state)
 begin
 	if (reset = '1') then
 		-- fill in the reset state values for q
-		q <= "0001";
+		q <= "0001";		
+		lastState <= '0';
 		--d <= "1000";
 				
-	elsif (rising_edge(clk)) then
-		if (switch = '1') then
-			-- propagate signals through the dff
-			-- from input to output
-			q(0) <= d(0);
-			q(1) <= d(1);
-			q(2) <= d(2);
-			q(3) <= d(3);
-		else 
-		end if;
+	elsif (rising_edge(clk)) then	
+		   if(lastState = '0' and switch = '1') then      
+		   			q(0) <= d(0);
+           q(1) <= d(1);
+           q(2) <= d(2);
+           q(3) <= d(3);
+        end if;
+        lastState <= switch; 
 	end if;
 end process;
 

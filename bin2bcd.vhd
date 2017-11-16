@@ -53,7 +53,7 @@ begin
         cm_tens <= std_logic_vector(bcd(11 downto 8));
         cm_ones <= std_logic_vector(bcd(7 downto 4));
         cm_tenths <= std_logic_vector(bcd(3 downto 0));    
-        cm_hundredths <= "0000";
+        cm_hundredths <= "1111";
     end if;  
   end process bcd1;
     

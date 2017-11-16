@@ -17,7 +17,7 @@ architecture Behavioral of saw_wave is
 signal i_waveform : STD_LOGIC;
 signal inc_ramp   : integer; --ramp amplitude to increment
 signal int_count  : integer; --internal count
-signal max_count  : integer := 9766;
+signal max_count  : integer := 9766;--19532;--9766;
 --Amount of time per pwm_gen segment(10ns*512)
 --do 5 segments before increasing (10ns*512*5)
 --invert that and you get a count each 39062.5 clock cycles
