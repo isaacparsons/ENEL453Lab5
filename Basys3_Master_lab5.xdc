@@ -123,11 +123,11 @@ set_property PACKAGE_PIN U17 [get_ports reset]
 
 ##Pmod Header JA
 ##Sch name = JA1
-#set_property PACKAGE_PIN J1 [get_ports {JA[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JA[0]}]
+set_property PACKAGE_PIN J1 [get_ports {to_filter}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {to_filter}]
 ##Sch name = JA2
-#set_property PACKAGE_PIN L2 [get_ports {JA[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JA[1]}]
+set_property PACKAGE_PIN L2 [get_ports {op_comp}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {op_comp}]
 ##Sch name = JA3
 #set_property PACKAGE_PIN J2 [get_ports {JA[2]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JA[2]}]
@@ -151,11 +151,11 @@ set_property PACKAGE_PIN U17 [get_ports reset]
 
 ##Pmod Header JB
 ##Sch name = JB1
-set_property PACKAGE_PIN A14 [get_ports {to_filter}]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {to_filter}]
+#set_property PACKAGE_PIN A14 [get_ports {to_filter}]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports {to_filter}]
 ##Sch name = JB2
-set_property PACKAGE_PIN A16 [get_ports {op_comp}]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {op_comp}]
+#set_property PACKAGE_PIN A16 [get_ports {op_comp}]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports {op_comp}]
 ##Sch name = JB3
 #set_property PACKAGE_PIN B15 [get_ports {JB[2]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB[2]}]
@@ -292,4 +292,3 @@ set_property PACKAGE_PIN A16 [get_ports {op_comp}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[3]}]
 #set_property PACKAGE_PIN K19 [get_ports QspiCSn]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports QspiCSn]
-
