@@ -28,13 +28,13 @@ architecture Behavioral of ss_hub is
 --Signals:
 signal i_to_filter : STD_LOGIC;
 signal i_saw_amp   : integer;
-signal i_locked_amp: std_logic_vector(8 downto 0);
+signal i_locked_amp: std_logic_vector(10 downto 0);  --was 8
 
 --Components:
 component sevensegment_controller
 	Port ( clk : in STD_LOGIC;
 		   reset : in STD_LOGIC;
-		   Binary_Value : in STD_LOGIC_VECTOR (8 downto 0);
+		   Binary_Value : in STD_LOGIC_VECTOR (10 downto 0); -- was 8
 		   CA : out STD_LOGIC;
 		   CB : out STD_LOGIC;
 		   CC : out STD_LOGIC;
@@ -63,7 +63,7 @@ component amp_lock
 			reset : in STD_LOGIC;
 			comp_state : in STD_LOGIC;
 			saw_amp    : in integer;
-			locked_amp : out std_logic_vector(8 downto 0)--;
+			locked_amp : out std_logic_vector(10 downto 0)--; -- was 8
 			);
 end component;
 

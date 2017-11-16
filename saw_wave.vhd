@@ -57,9 +57,9 @@ begin
 		end if;
 		
 		if(int_count = max_count) then
-			if(inc_ramp < 511) then
+			if(inc_ramp < 2047) then --changed from 511
 				inc_ramp <= inc_ramp + 1;
-			elsif(inc_ramp >= 511) then
+			elsif(inc_ramp >= 2047) then --changed from 511
 				inc_ramp <= 0;
 			end if;
 		end if;
