@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity sevensegment_controller is
     port ( clk : in std_logic;
        reset : in std_logic;
-       binary_value : in std_logic_vector (8 downto 0);
+       binary_value : in std_logic_vector (10 downto 0);
        ca : out std_logic;
        cb : out std_logic;
        cc : out std_logic;
@@ -37,7 +37,7 @@ signal i_cm_hundredths : std_logic_vector(3 downto 0);
 component bin2bcd is
     port ( clk : in std_logic;                                      
            rst : in std_logic;
-           acd_bin_out : in  std_logic_vector (8 downto 0);   -- adc output value as a binary string              
+           acd_bin_out : in  std_logic_vector (10 downto 0);   -- adc output value as a binary string              
            cm_tens : out  std_logic_vector (3 downto 0);            -- needs to display 0-4
            cm_ones : out  std_logic_vector (3 downto 0);            -- needs to display 0-9
            cm_tenths : out  std_logic_vector (3 downto 0);          -- needs to display 0-9
@@ -70,7 +70,7 @@ component sevensegment_decoder is
            cf : out  std_logic;
            cg : out  std_logic;
            dp : out  std_logic;
-		   dp_in: in std_logic;
+	   dp_in: in std_logic;
            data : in  std_logic_vector (3 downto 0)
 			   );
 end component;
