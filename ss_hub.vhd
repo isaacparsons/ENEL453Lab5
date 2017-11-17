@@ -58,7 +58,7 @@ component saw_wave
 			);
 end component;
 			
-component amp_lock
+component amp_lock--_cal
 	Port (	clk   : in STD_LOGIC;
 			reset : in STD_LOGIC;
 			comp_state : in STD_LOGIC;
@@ -79,7 +79,7 @@ saw: saw_wave
 				waveform => i_to_filter
 			);
 			
-comp_check: amp_lock
+comp_check: amp_lock--_cal
 	PORT MAP (
 				clk => clk,
 				reset => reset,
