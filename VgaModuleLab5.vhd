@@ -10,7 +10,7 @@ entity VgaModuleLab5 is
             hsync: out STD_LOGIC;
             vsync: out STD_LOGIC;
 			
-			firstDigitIn : in std_logic_vector(1 downto 0);
+			firstDigitIn : in std_logic_vector(3 downto 0);
 			secondDigitIn : in std_logic_vector(3 downto 0);
 			thirdDigitIn : in std_logic_vector(3 downto 0);
 			scale : in std_logic_vector(3 downto 0);

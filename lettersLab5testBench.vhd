@@ -21,7 +21,7 @@ architecture behaviour of lettersLab5testBench is
 			box_x_positionIn: in std_logic_vector(9 downto 0);
             box_y_positionIn: in std_logic_vector(9 downto 0);
             
-            firstDigit : in std_logic_vector(1 downto 0);
+            firstDigit : in std_logic_vector(3 downto 0);
             secondDigit : in std_logic_vector(3 downto 0);
             thirdDigit : in std_logic_vector(3 downto 0);
             

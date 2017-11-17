@@ -17,7 +17,7 @@ architecture behaviour of tb_VgaModuleLab5 is
 				hsync: out STD_LOGIC;
 				vsync: out STD_LOGIC;
 				
-				firstDigitIn : in std_logic_vector(1 downto 0);
+				firstDigitIn : in std_logic_vector(3 downto 0);
 				secondDigitIn : in std_logic_vector(3 downto 0);
 				thirdDigitIn : in std_logic_vector(3 downto 0);
 				scale : in std_logic_vector(3 downto 0);
@@ -39,7 +39,7 @@ signal blueOut: STD_LOGIC_VECTOR(3 downto 0):= "0000";
 signal hsync: std_logic:= '0';
 signal vsync: std_logic:= '0';
 
-signal firstDigitIn: std_logic_vector(1 downto 0):= "00";
+signal firstDigitIn: std_logic_vector(3 downto 0):= "0000";
 signal secondDigitIn: std_logic_vector(3 downto 0):= "0000";
 signal thirdDigitIn: std_logic_vector(3 downto 0):= "0000";
 signal scale: std_logic_vector(1 downto 0):= "0000";
@@ -79,9 +79,9 @@ begin
 	stim_stuff: process
 	begin
 		wait for 400 ns;
-		firstDigitIn <= "01";
+		firstDigitIn <= "0001";
 		wait for 100 ns;
-		firstDigitIn <= "11";
+		firstDigitIn <= "0011";
 		
 	end process;
 end behaviour;
