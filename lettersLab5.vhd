@@ -12,7 +12,7 @@ entity lettersLab5 is
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
 			scale : in std_logic_vector(3 downto 0);
 			
-			firstDigit : in std_logic_vector(1 downto 0);
+			firstDigit : in std_logic_vector(3 downto 0);
 			secondDigit : in std_logic_vector(3 downto 0);
 			thirdDigit : in std_logic_vector(3 downto 0);
 			
@@ -304,13 +304,13 @@ signal M: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
  
 selectedLetter: process(clk) begin
     if(rising_edge(clk)) then
-        if(firstDigit = "00") then
+        if(firstDigit = "0000") then
             SelectedLetterFirstDigit <= zero;
-        elsif(firstDigit = "01") then
+        elsif(firstDigit = "0001") then
             SelectedLetterFirstDigit <= one;
-        elsif(firstDigit = "10") then
+        elsif(firstDigit = "0010") then
              SelectedLetterFirstDigit <= two;
-        elsif(firstDigit = "11") then
+        elsif(firstDigit = "0011") then
              SelectedLetterFirstDigit <= three;   
         end if;
         
@@ -384,11 +384,16 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
                     scale_counter <= scale_counter + 1;
             end if;
         else
+            --ytotalIndex<= 0;
             -- if scan_line_x equals 480 increment ytotalIndex
             if(scan_line_y < downScreenBound) then
 				if(scan_line_y >= box_y_positionInt) then
 					if(scale_counter_y = scaleInt - 1) then
-						ytotalIndex <= ytotalIndex + 1;
+					   if(ytotalIndex = 13) then
+					       ytotalIndex <= 0;
+					   else
+						  ytotalIndex <= ytotalIndex + 1;
+					   end if;
 						scale_counter_y <= 0;
 					else
 						scale_counter_y <= scale_counter_y + 1;
