@@ -373,6 +373,7 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
 	if(reset = '1') then
 	   ytotalIndex<= 0;
 	   scale_counter <= 0;
+	   xindexforEachLetter <= 0;
 	else
 	           
         if(scan_line_x < rightScreenBound) then
@@ -454,13 +455,13 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
             
         end if;
             
-		testInt <= currentCharacter(ytotalindex,xindexforEachLetter);
-        if(scan_line_y < box_y_positionInt) then
+		--testInt <= currentCharacter(ytotalindex,xindexforEachLetter);
+        if(scan_line_y < box_y_positionInt or (scan_line_y > box_y_positionInt + (scaleInt * 14))) then
 			pixel_color <="111111111111";
 		elsif((currentCharacter(ytotalIndex, xindexforEachLetter) = 1)) then
 			pixel_color <= letter_color;
 		else 
-			pixel_color <= letter_color;
+			pixel_color <= "111111111111";
 		
 		end if;
         
