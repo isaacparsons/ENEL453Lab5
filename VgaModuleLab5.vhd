@@ -127,7 +127,7 @@ LETTERS: lettersLab5
 				reset => reset, 
 				scan_line_x => scan_line_x,
 				scan_line_y => scan_line_y,
-				letter_color => "111111111111",--letter_color,
+				letter_color => "000000000000",--letter_color,
 				scale => scale,
 				box_x_positionIn => box_x_positionInVga,
 				box_y_positionIn => box_y_positionInVga,
