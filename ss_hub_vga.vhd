@@ -8,6 +8,7 @@ Port ( 		clk   : in STD_LOGIC;
 			to_filter : out STD_LOGIC; --JB0
 			
 			toggle : in STD_LOGIC;
+			calibrate : in STD_LOGIC;--Added for calibration
 			
 			--vga
 			vgaRed: out STD_LOGIC_VECTOR(3 downto 0);
@@ -104,10 +105,11 @@ component saw_wave
 			);
 end component;
 			
-component amp_lock--_cal
+component amp_lock_cal
 	Port (	clk   : in STD_LOGIC;
 			reset : in STD_LOGIC;
 			comp_state : in STD_LOGIC;
+			calibrate  : in STD_LOGIC; --added for calibration
 			saw_amp    : in integer;
 			locked_amp : out std_logic_vector(10 downto 0); -- was 8
 			locked_int : out std_logic_vector(10 downto 0)
@@ -166,11 +168,12 @@ saw: saw_wave
 				waveform => i_to_filter
 			);
 			
-comp_check: amp_lock--_cal
+comp_check: amp_lock_cal
 	PORT MAP (
 				clk => clk,
 				reset => reset,
 				comp_state => op_comp,
+				calibrate => calibrate,
 				saw_amp => i_saw_amp,
 				locked_amp => i_locked_amp,
 				locked_int => i_locked_int
