@@ -16,7 +16,7 @@ entity VgaModuleLab5 is
 			scale : in std_logic_vector(3 downto 0);
 			
 			box_x_positionInVga: in std_logic_vector(9 downto 0);
-			box_y_positionInVga: in std_logic_vector(9 downto 0);
+			box_y_positionInVga: in std_logic_vector(9 downto 0)--;
 	 );
 end VgaModuleLab5;
 
@@ -58,7 +58,7 @@ end component;
          letter_color: in STD_LOGIC_VECTOR(11 downto 0);
          scale : in std_logic_vector(3 downto 0);
 			
-		 firstDigit : in std_logic_vector(1 downto 0);
+		 firstDigit : in std_logic_vector(3 downto 0);
 	 	 secondDigit : in std_logic_vector(3 downto 0);
 		 thirdDigit : in std_logic_vector(3 downto 0);
 			
@@ -72,7 +72,7 @@ end component;
 -- END ADDED
 
 -- Signals:
-signal reset: std_logic;
+--signal reset: std_logic;
 signal vga_select: std_logic;
 
 signal disp_blue: std_logic_vector(3 downto 0);
@@ -127,16 +127,16 @@ LETTERS: lettersLab5
 				reset => reset, 
 				scan_line_x => scan_line_x,
 				scan_line_y => scan_line_y,
-				letter_color => letter_color,
+				letter_color => "111111111111",--letter_color,
 				scale => scale,
 				box_x_positionIn => box_x_positionInVga,
 				box_y_positionIn => box_y_positionInVga,
-				firstDigit => firstDigit,
-				secondDigit => secondDigit,
-				thirdDigit => thirdDigit,
-				red => redOut,
-				blue => blueOut,
-				green => greenOut
+				firstDigit => firstDigitIn,
+				secondDigit => secondDigitIn,
+				thirdDigit => thirdDigitIn,
+				red => disp_red,
+				blue => disp_blue,
+				green => disp_green
            );
 -- END ADDED
 
@@ -150,8 +150,7 @@ greenOut <= "0000" when (vga_blank = '1') else disp_green;
 -- Connect input buttons and switches:
 -- ADDED
 -- These can be assigned to different switches/buttons
-reset <= buttons(0);
-box_color <= "00000000000";
+--box_color <= "00000000000";
 
 --disp_red <= letter_red;
 --disp_blue <= letter_blue;

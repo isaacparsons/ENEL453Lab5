@@ -384,11 +384,16 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
                     scale_counter <= scale_counter + 1;
             end if;
         else
+            --ytotalIndex<= 0;
             -- if scan_line_x equals 480 increment ytotalIndex
             if(scan_line_y < downScreenBound) then
 				if(scan_line_y >= box_y_positionInt) then
 					if(scale_counter_y = scaleInt - 1) then
-						ytotalIndex <= ytotalIndex + 1;
+					   if(ytotalIndex = 13) then
+					       ytotalIndex <= 0;
+					   else
+						  ytotalIndex <= ytotalIndex + 1;
+					   end if;
 						scale_counter_y <= 0;
 					else
 						scale_counter_y <= scale_counter_y + 1;
