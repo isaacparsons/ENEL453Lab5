@@ -7,8 +7,8 @@ entity lettersLab5 is
 	
 	Port ( 	clk : in  STD_LOGIC;
 			reset : in  STD_LOGIC;
-			scan_line_x: in STD_LOGIC_VECTOR(10 downto 0);
-			scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
+			scan_line_x_l: in STD_LOGIC_VECTOR(10 downto 0);
+			scan_line_y_l: in STD_LOGIC_VECTOR(10 downto 0);
             letter_color: in STD_LOGIC_VECTOR(11 downto 0);
 			scale : in std_logic_vector(3 downto 0);
 			
@@ -91,6 +91,10 @@ signal ytotalIndex: integer:= 0;
 
 signal box_x_positionInt: integer:= 0;
 signal box_y_positionInt: integer:= 0;
+
+signal testInt : integer;
+
+--signal i_scan_line_x: std_logic_vector;
 
 constant rightScreenBound : std_logic_vector(10 downto 0):= "00111011111"; -- 479
 constant downScreenBound : std_logic_vector(10 downto 0):= "01001111111"; -- 639
@@ -301,7 +305,11 @@ signal M: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
  scaleInt <= to_integer(unsigned(scale));
  
 selectedLetter: process(clk) begin
-    if(rising_edge(clk)) then
+    if (reset = '1') then
+        SelectedLetterFirstDigit <= zero;
+        SelectedLetterSecondDigit <= zero;
+        SelectedLetterThirdDigit <= zero;
+    elsif(rising_edge(clk)) then
         if(firstDigit = "0000") then
             SelectedLetterFirstDigit <= zero;
         elsif(firstDigit = "0001") then
@@ -363,7 +371,7 @@ selectedLetter: process(clk) begin
 end process;
  
  
-pixelOnorOff: process(scan_line_x, scan_line_y) begin
+pixelOnorOff: process(scan_line_x_l, scan_line_y_l) begin
 	-- case statement or something to choose 3 letters(numbers). result will give values to
 	-- SelectedLetterFirstDigit, SelectedLetterSecondDigit, and SelectedLetterThirdDigit
 
@@ -372,11 +380,10 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
 	   ytotalIndex<= 0;
 	   scale_counter <= 0;
 	   xindexforEachLetter <= 0;
-	else
-	           
-        if(scan_line_x < rightScreenBound) then
+		           
+        if(scan_line_x_l < rightScreenBound) then
         -- less than 480 (width of vga display)
-            if((scale_counter = scaleInt - 1) or (to_integer(unsigned(scan_line_x)) = box_x_positionInt)) then
+            if((scale_counter = scaleInt - 1) or (to_integer(unsigned(scan_line_x_l)) = box_x_positionInt)) then
                     scale_counter <= 0;
                     xindexforEachLetter<= xindexforEachLetter+1;
                 else
@@ -385,8 +392,8 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
         else
             --ytotalIndex<= 0;
             -- if scan_line_x equals 480 increment ytotalIndex
-            if(scan_line_y < downScreenBound) then
-				if(scan_line_y >= box_y_positionInt) then
+            if(scan_line_y_l < downScreenBound) then
+				if(scan_line_y_l >= box_y_positionInt) then
 					if(scale_counter_y = scaleInt - 1) then
 					   if(ytotalIndex = 13) then
 					       ytotalIndex <= 0;
@@ -411,54 +418,55 @@ pixelOnorOff: process(scan_line_x, scan_line_y) begin
         
         -- reset the x index when in new character
 		-- case where box_x_positionInt = 0 and scan_line_x = 0 is handled in the reset of a new x line
-		if(scan_line_x = box_x_positionInt) then
+		if(scan_line_x_l = box_x_positionInt) then
 			   xindexforEachLetter <= 0;
-		elsif(scan_line_x = box_x_positionInt + (34*scaleInt)) then
+		elsif(scan_line_x_l = box_x_positionInt + (34*scaleInt)) then
                xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (17*scaleInt)) then
+        elsif(scan_line_x_l = box_x_positionInt + (17*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (51*scaleInt)) then
+        elsif(scan_line_x_l = box_x_positionInt + (51*scaleInt)) then
               xindexforEachLetter <= 0;  
-        elsif(scan_line_x = box_x_positionInt + (68*scaleInt)) then
+        elsif(scan_line_x_l = box_x_positionInt + (68*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x = box_x_positionInt + (85*scaleInt)) then
+        elsif(scan_line_x_l = box_x_positionInt + (85*scaleInt)) then
               xindexforEachLetter <= 0;
-        elsif(scan_line_x >= (box_x_positionInt + (102 * scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (102 * scaleInt))) then
               xindexforEachLetter <= 0;
         end if;
         
         --first character
-        if(scan_line_x >= box_x_positionInt and scan_line_x < (box_x_positionInt + (17* scaleInt))) then
+        if(scan_line_x_l >= box_x_positionInt and scan_line_x_l < (box_x_positionInt + (17* scaleInt))) then
             currentCharacter <= SelectedLetterFirstDigit;
         
         --second character
-        elsif(scan_line_x >= (box_x_positionInt + (17*scaleInt)) and scan_line_x < (box_x_positionInt + (34* scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (17*scaleInt)) and scan_line_x_l < (box_x_positionInt + (34* scaleInt))) then
             currentCharacter <= SelectedLetterSecondDigit;
         
         --point 
-        elsif(scan_line_x >= (box_x_positionInt + (34*scaleInt)) and scan_line_x < (box_x_positionInt + (51* scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (34*scaleInt)) and scan_line_x_l < (box_x_positionInt + (51* scaleInt))) then
             currentCharacter <= point;  
             
         -- third character      
-        elsif(scan_line_x >= (box_x_positionInt + (51*scaleInt)) and scan_line_x < (box_x_positionInt + (68* scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (51*scaleInt)) and scan_line_x_l < (box_x_positionInt + (68* scaleInt))) then
             currentCharacter <= SelectedLetterThirdDigit;
             
         -- "C"
-        elsif(scan_line_x >= (box_x_positionInt + (68*scaleInt)) and scan_line_x < (box_x_positionInt + (85* scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (68*scaleInt)) and scan_line_x_l < (box_x_positionInt + (85* scaleInt))) then
             currentCharacter <= C;
         
         -- "M"
-        elsif(scan_line_x >= (box_x_positionInt + (85*scaleInt)) and scan_line_x < (box_x_positionInt + (102* scaleInt))) then
+        elsif(scan_line_x_l >= (box_x_positionInt + (85*scaleInt)) and scan_line_x_l < (box_x_positionInt + (102* scaleInt))) then
             currentCharacter <= M;
             
         end if;
             
-        if(scan_line_y < box_y_positionInt or (scan_line_y > box_y_positionInt + (scaleInt * 14))) then
+		--testInt <= currentCharacter(ytotalindex,xindexforEachLetter);
+        if(scan_line_y_l < box_y_positionInt or (scan_line_y_l > box_y_positionInt + (scaleInt * 14))) then
 			pixel_color <="111111111111";
 		elsif((currentCharacter(ytotalIndex, xindexforEachLetter) = 1)) then
 			pixel_color <= letter_color;
 		else 
-			pixel_color <="111111111111";
+			pixel_color <= "111111111111";
 		
 		end if;
         

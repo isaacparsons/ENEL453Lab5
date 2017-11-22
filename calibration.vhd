@@ -63,5 +63,5 @@ cal_bouncer: debounce
     end if;
   end process;
 
-  offset <= i_offset;
+  offset <= temp_offset;--i_offset;
 end behavioral;

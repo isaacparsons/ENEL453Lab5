@@ -4,6 +4,7 @@ use ieee.std_logic_1164.all;
 entity sevensegment_controller is
     port ( clk : in std_logic;
        reset : in std_logic;
+       toggle : in std_logic;
        binary_value : in std_logic_vector (10 downto 0);
        ca : out std_logic;
        cb : out std_logic;
@@ -130,5 +131,13 @@ an2 <= not i_an(1);
 an3 <= not i_an(2);
 an4 <= not i_an(3);
 
-i_dp <= i_an(1);
+decimal : process(toggle)
+begin
+    if(toggle = '0') then
+        i_dp <= i_an(1);
+    else
+        i_dp <= '0';
+    end if;
+end process;
+
 end behavioral;

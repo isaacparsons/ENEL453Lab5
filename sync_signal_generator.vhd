@@ -5,7 +5,8 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity sync_signals_generator is
-    Port ( pixel_clk : in  STD_LOGIC;
+    Port ( clk : in STD_LOGIC;
+           pixel_clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
            hor_sync: out STD_LOGIC;
            ver_sync: out STD_LOGIC;
@@ -36,26 +37,28 @@ signal current_ver_pos: std_logic_vector(10 downto 0) := (others => '0');
 signal hor_blank, ver_blank, i_blank: std_logic;
 
 begin
-	PixelPosition: process(pixel_clk, reset)
+	PixelPosition: process(clk, reset)
 	begin
 	    if (reset = '1') then
             -- Reset all outputs
             current_hor_pos <= (others => '0');
             current_ver_pos <= (others => '0');	    
-		elsif (rising_edge(pixel_clk)) then
-            if current_hor_pos < h_sync_pulse-1 then
-                current_hor_pos <= current_hor_pos + 1;
-            else
-                if current_ver_pos < v_sync_pulse-1 then
-                    current_ver_pos <= current_ver_pos + 1;
+		elsif(rising_edge(clk)) then
+            if (pixel_clk = '1') then
+                if current_hor_pos < h_sync_pulse-1 then
+                    current_hor_pos <= current_hor_pos + 1;
                 else
-                   -- Resets Vertical position (reached bottom of screen)
-                    current_ver_pos <= (others => '0');		
-                end if;
-                -- Resets Horizontal position (reached right side of screen)
-                current_hor_pos <= (others => '0');			
-            end if;	
-		end if;
+                    if current_ver_pos < v_sync_pulse-1 then
+                        current_ver_pos <= current_ver_pos + 1;
+                    else
+                       -- Resets Vertical position (reached bottom of screen)
+                        current_ver_pos <= (others => '0');		
+                    end if;
+                    -- Resets Horizontal position (reached right side of screen)
+                    current_hor_pos <= (others => '0');			
+                end if;	
+            end if;
+       end if;
 	end process PixelPosition;
 
 -- Complete the description with relevant VERTICAL signals (ver_sync, ver_blank and scan_line_y)
