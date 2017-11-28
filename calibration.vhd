@@ -14,7 +14,11 @@ END calibration;
 
 ARCHITECTURE Behavioral OF calibration IS
 
+<<<<<<< HEAD
 constant exp_amp : integer := 280;
+=======
+constant exp_amp : integer := 1315;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 signal   i_offset : integer;
 signal   temp_offset : integer;
 signal   d_button : std_logic;

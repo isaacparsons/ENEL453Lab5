@@ -14,7 +14,10 @@ entity VgaModuleLab5 is
 			secondDigitIn : in std_logic_vector(3 downto 0);
 			thirdDigitIn : in std_logic_vector(3 downto 0);
 			scale : in std_logic_vector(3 downto 0);
+<<<<<<< HEAD
 			ConvertedScoreVGAModuleIn: in std_logic_vector(2 downto 0);
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			
 			box_x_positionInVga: in std_logic_vector(9 downto 0);
 			box_y_positionInVga: in std_logic_vector(9 downto 0)--;
@@ -23,6 +26,7 @@ end VgaModuleLab5;
 
 architecture Behavioral of VgaModuleLab5 is
 -- Components:
+<<<<<<< HEAD
 
 component DigitandBoxPositionSelector is
     Port (clk: in std_logic;
@@ -41,6 +45,8 @@ component DigitandBoxPositionSelector is
 				 );
 end component;
 
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 component sync_signals_generator is
     Port ( pixel_clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
@@ -70,16 +76,26 @@ end component;
 
  
  component lettersLab5 is
+<<<<<<< HEAD
  Port (  pixel_clkVGA: in std_logic;
          scan_line_x_l: in STD_LOGIC_VECTOR(10 downto 0);
          scan_line_y_l: in STD_LOGIC_VECTOR(10 downto 0);
+=======
+ Port (  clk : in  STD_LOGIC;
+         reset : in  STD_LOGIC;
+         scan_line_x: in STD_LOGIC_VECTOR(10 downto 0);
+         scan_line_y: in STD_LOGIC_VECTOR(10 downto 0);
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
          letter_color: in STD_LOGIC_VECTOR(11 downto 0);
          scale : in std_logic_vector(3 downto 0);
 			
 		 firstDigit : in std_logic_vector(3 downto 0);
 	 	 secondDigit : in std_logic_vector(3 downto 0);
 		 thirdDigit : in std_logic_vector(3 downto 0);
+<<<<<<< HEAD
 		 ConvertedScoreVGAIn : in std_logic_vector(2 downto 0);
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			
          box_x_positionIn: in std_logic_vector(9 downto 0);
          box_y_positionIn: in std_logic_vector(9 downto 0);
@@ -112,6 +128,7 @@ signal letter_color: std_logic_vector(11 downto 0);
 signal letter_red: std_logic_vector(3 downto 0);
 signal letter_green: std_logic_vector(3 downto 0);
 signal letter_blue: std_logic_vector(3 downto 0);
+<<<<<<< HEAD
 signal scan_line_x_i : STD_LOGIC_VECTOR(10 downto 0);
 signal scan_line_y_i : STD_LOGIC_VECTOR(10 downto 0);
 
@@ -121,10 +138,13 @@ signal third_digit_i: std_logic_vector(3 downto 0);
 
 signal box_x_position_i: std_logic_vector(9 downto 0);
 signal box_y_position_i: std_logic_vector(9 downto 0);
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 
 
 begin
 
+<<<<<<< HEAD
 DigitandBoxPos: DigitandBoxPositionSelector
     Port map(clk => clk,
             boxPositionxSelectIn=>box_x_positionInVga,
@@ -139,14 +159,21 @@ DigitandBoxPos: DigitandBoxPositionSelector
             boxPositionySelectOut => box_y_position_i
     );
 
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 VGA_SYNC: sync_signals_generator
     Port map( 	pixel_clk   => i_pixel_clk,
                 reset       => reset,
                 hor_sync    => hsync,
                 ver_sync    => vsync,
                 blank       => vga_blank,
+<<<<<<< HEAD
                 scan_line_x => scan_line_x_i,
                 scan_line_y => scan_line_y_i
+=======
+                scan_line_x => scan_line_x,
+                scan_line_y => scan_line_y
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			  );
 
 -- ADDED	
@@ -165,6 +192,7 @@ DIVIDER: clock_divider
 		  
              
 LETTERS: lettersLab5
+<<<<<<< HEAD
     Port map ( pixel_clkVGA => i_pixel_clk,
                 scan_line_x_l => scan_line_x_i,
 				scan_line_y_l => scan_line_y_i,
@@ -176,6 +204,19 @@ LETTERS: lettersLab5
 				firstDigit => first_digit_i,--firstDigitIn,
 				secondDigit => second_digit_i,--secondDigitIn,
 				thirdDigit => third_digit_i,--thirdDigitIn,
+=======
+    Port map ( clk => clk,
+				reset => reset, 
+				scan_line_x => scan_line_x,
+				scan_line_y => scan_line_y,
+				letter_color => "000000000000",--letter_color,
+				scale => scale,
+				box_x_positionIn => box_x_positionInVga,
+				box_y_positionIn => box_y_positionInVga,
+				firstDigit => firstDigitIn,
+				secondDigit => secondDigitIn,
+				thirdDigit => thirdDigitIn,
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 				red => disp_red,
 				blue => disp_blue,
 				green => disp_green

@@ -21,10 +21,16 @@ architecture behaviour of tb_VgaModuleLab5 is
 				secondDigitIn : in std_logic_vector(3 downto 0);
 				thirdDigitIn : in std_logic_vector(3 downto 0);
 				scale : in std_logic_vector(3 downto 0);
+<<<<<<< HEAD
 				ConvertedScoreVGAModuleIn: in std_logic_vector(2 downto 0);
 				
 				box_x_positionInVga: in std_logic_vector(9 downto 0);
 				box_y_positionInVga: in std_logic_vector(9 downto 0)
+=======
+				
+				box_x_positionInVga: in std_logic_vector(9 downto 0);
+				box_y_positionInVga: in std_logic_vector(9 downto 0);
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 		 );
 		 
 	end component;
@@ -39,7 +45,10 @@ signal greenOut: STD_LOGIC_VECTOR(3 downto 0):= "0000";
 signal blueOut: STD_LOGIC_VECTOR(3 downto 0):= "0000";
 signal hsync: std_logic:= '0';
 signal vsync: std_logic:= '0';
+<<<<<<< HEAD
 signal ConvertedScoreVGAModuleIn: std_logic_vector(2 downto 0):= "010";
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 
 signal firstDigitIn: std_logic_vector(3 downto 0):= "0000";
 signal secondDigitIn: std_logic_vector(3 downto 0):= "0000";

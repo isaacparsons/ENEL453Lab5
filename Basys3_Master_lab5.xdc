@@ -9,10 +9,17 @@ set_property PACKAGE_PIN W5 [get_ports clk]
 	create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports clk]
  
 ## Switches
+<<<<<<< HEAD
 set_property PACKAGE_PIN V17 [get_ports {toggle}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {toggle}]
 set_property PACKAGE_PIN V16 [get_ports {toggle2}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {toggle2}]
+=======
+set_property PACKAGE_PIN V17 [get_ports {toggle}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {toggle}]
+#set_property PACKAGE_PIN V16 [get_ports {switches_inputs[1]}]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports {switches_inputs[1]}]
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 #set_property PACKAGE_PIN W16 [get_ports {switches_inputs[2]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {switches_inputs[2]}]
 #set_property PACKAGE_PIN W17 [get_ports {reset}]					
@@ -108,6 +115,7 @@ set_property PACKAGE_PIN W4 [get_ports AN4]
 
 
 ##Buttons
+<<<<<<< HEAD
 set_property PACKAGE_PIN U17 [get_ports btn_up_ss]						
 	set_property IOSTANDARD LVCMOS33 [get_ports btn_up_ss]
 set_property PACKAGE_PIN T18 [get_ports btn_down_ss]						
@@ -117,6 +125,17 @@ set_property PACKAGE_PIN W19 [get_ports btn_left_ss]
 set_property PACKAGE_PIN T17 [get_ports btn_right_ss]						
 	set_property IOSTANDARD LVCMOS33 [get_ports btn_right_ss]
 set_property PACKAGE_PIN U18 [get_ports reset]						
+=======
+#set_property PACKAGE_PIN U18 [get_ports btnC]						
+	#set_property IOSTANDARD LVCMOS33 [get_ports btnC]
+#set_property PACKAGE_PIN T18 [get_ports btnU]						
+	#set_property IOSTANDARD LVCMOS33 [get_ports btnU]
+#set_property PACKAGE_PIN W19 [get_ports btnL]						
+	#set_property IOSTANDARD LVCMOS33 [get_ports btnL]
+#set_property PACKAGE_PIN T17 [get_ports btnR]						
+	#set_property IOSTANDARD LVCMOS33 [get_ports btnR]
+set_property PACKAGE_PIN U17 [get_ports reset]						
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 	set_property IOSTANDARD LVCMOS33 [get_ports reset]
  
 
@@ -157,8 +176,13 @@ set_property PACKAGE_PIN A14 [get_ports {to_filter}]
 set_property PACKAGE_PIN A16 [get_ports {op_comp}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {op_comp}]
 ##Sch name = JB3
+<<<<<<< HEAD
 #set_property PACKAGE_PIN B15 [get_ports {ir_comp}]					
 #	set_property IOSTANDARD LVCMOS33 [get_ports {ir_comp}]
+=======
+#set_property PACKAGE_PIN B15 [get_ports {JB[2]}]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports {JB[2]}]
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 ##Sch name = JB4
 #set_property PACKAGE_PIN B16 [get_ports {JB[3]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB[3]}]
@@ -172,8 +196,13 @@ set_property PACKAGE_PIN A16 [get_ports {op_comp}]
 #set_property PACKAGE_PIN C15 [get_ports {JB[6]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB[6]}]
 ##Sch name = JB10 
+<<<<<<< HEAD
 set_property PACKAGE_PIN C16 [get_ports {ir_comp}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {ir_comp}]
+=======
+#set_property PACKAGE_PIN C16 [get_ports {JB[7]}]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports {JB[7]}]
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
  
 
 
@@ -292,4 +321,7 @@ set_property PACKAGE_PIN R19 [get_ports vsync]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[3]}]
 #set_property PACKAGE_PIN K19 [get_ports QspiCSn]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports QspiCSn]
+<<<<<<< HEAD
 
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff

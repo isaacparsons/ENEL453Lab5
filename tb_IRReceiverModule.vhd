@@ -13,7 +13,11 @@ architecture behaviour of tb_IRReceiverModule is
 	Port ( 	clk : in std_logic;
 	        reset : in std_logic;
 			  irSignal : in std_logic; -- low means that the ball crossed and we must get the value of the dist.
+<<<<<<< HEAD
 			  distanceDigitOne : in std_logic_vector(3 downto 0); -- value of 0 to 3
+=======
+			  distanceDigitOne : in std_logic_vector(1 downto 0); -- value of 0 to 3
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			  distanceDigitTwo : in std_logic_vector(3 downto 0); -- value of 0 to 9 
 			  distanceDigitThree : in std_logic_vector(3 downto 0); -- value of 0 to 9
 			  
@@ -24,10 +28,17 @@ architecture behaviour of tb_IRReceiverModule is
 
     
 --signals (initialize all inputs and connections between components)
+<<<<<<< HEAD
 signal irSignal : std_logic:= '0';
 signal clk : std_logic:= '0';
 signal reset : std_logic:= '0';
 signal distanceDigitOne : std_logic_vector(3 downto 0):= "0001";
+=======
+signal irSignal : std_logic:= '1';
+signal clk : std_logic:= '0';
+signal reset : std_logic:= '0';
+signal distanceDigitOne : std_logic_vector(1 downto 0):= "01";
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 signal distanceDigitTwo : std_logic_vector(3 downto 0):= "0101";
 signal distanceDigitThree : std_logic_vector(3 downto 0):= "0000";
 signal convertedScore : std_logic_vector(2 downto 0):= "000";
@@ -76,6 +87,7 @@ uut: IRReceiverModule
        end process;
        
        -- stimulate input here
+<<<<<<< HEAD
        stim_dist: process
           begin
                wait for 400 ns;
@@ -94,6 +106,14 @@ uut: IRReceiverModule
 			irSignal <= '1';
 			wait for 2 ns;
 			irSignal <= '0';
+=======
+	   stim_irSig: process
+	   begin
+			wait for 300 ns;
+			irSignal <= '0';
+			wait for 2 ns;
+			irSignal <= '1';
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			wait;
         end process;
        

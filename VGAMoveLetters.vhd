@@ -12,8 +12,13 @@ entity VGAMoveLetters is
 				   btnLeft : in std_logic;
 				   btnRight : in std_logic;
 				   
+<<<<<<< HEAD
 				   --increaseScale : in std_logic;
 				   --decreaseScale : in std_logic;
+=======
+				   increaseScale : in std_logic;
+				   decreaseScale : in std_logic;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 				   
 				   box_x_positionOut : out std_logic_vector(9 downto 0);
 				   box_y_positionOut : out std_logic_vector(9 downto 0);
@@ -22,6 +27,7 @@ entity VGAMoveLetters is
 end VGAMoveLetters;
 
 architecture Behavioral of VGAMoveLetters is
+<<<<<<< HEAD
 	signal ibox_x_pos : std_logic_vector(9 downto 0):= "0000000111";
 	signal ibox_y_pos : std_logic_vector(9 downto 0):= "0000000000";
 	
@@ -34,6 +40,15 @@ architecture Behavioral of VGAMoveLetters is
 	signal lastStateLeft: std_logic:='0';
 	signal lastStateRight: std_logic:='0';
 	
+=======
+	signal ibox_x_pos : std_logic_vector(9 downto 0):= "0000000000";
+	signal ibox_y_pos : std_logic_vector(9 downto 0):= "0000000000";
+	
+	signal currentScale: integer:= 3;
+	signal maxScale: integer:= 10;
+	signal minScale: integer:= 1;
+	
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 begin
 
 changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
@@ -41,6 +56,7 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
         ibox_x_pos 	<= (others=> '0');
 		ibox_y_pos 	<= (others=> '0');
 
+<<<<<<< HEAD
 	elsif (rising_edge(clk)) then		-- When counter is enabled
 --        if(btnUp = '1' and lastStateUp = '0' and (ibox_y_pos < (14*6*currentScale))) then
 --            lastStateUp <= '1';
@@ -73,6 +89,28 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
 		--elsif((decreaseScale = '1') and (currentScale > minScale) and (increaseScale = '0')) then
 			--currentScale <= currentScale - 1;
 		--end if;
+=======
+	elsif (rising_edge(clk)) then 			-- When counter is enabled
+        if(btnUp = '1' and (ibox_y_pos < (480 - (17*6*currentScale)))) then
+            ibox_y_pos <= ibox_y_pos + 1;
+			
+        elsif((btnDown = '1') and (ibox_y_pos > 0)) then
+            ibox_y_pos <= ibox_y_pos - 1;
+            
+        elsif((btnLeft = '1') and (ibox_x_pos > 0)) then
+            ibox_x_pos <= ibox_x_pos - 1;
+            
+        elsif((btnRight = '1') and (ibox_x_pos < (640 - (14*currentScale)))) then
+            ibox_x_pos <= ibox_x_pos + 1;
+            
+        end if;
+		
+		if((increaseScale = '1') and (currentScale < maxScale) and decreaseScale = '0' ) then
+			currentScale <= currentScale + 1;
+		elsif((decreaseScale = '1') and (currentScale > minScale) and (increaseScale = '0')) then
+			currentScale <= currentScale - 1;
+		end if;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 		
 	end if;
 end process;

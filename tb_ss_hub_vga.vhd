@@ -15,6 +15,7 @@ ARCHITECTURE behavior OF tb_ss_hub_vga IS
 			reset : in STD_LOGIC; -- BTNC
 			op_comp : in STD_LOGIC;
 			to_filter : out STD_LOGIC;
+<<<<<<< HEAD
 			ir_comp : in std_logic;
 			
 			toggle : in STD_LOGIC;
@@ -25,6 +26,10 @@ ARCHITECTURE behavior OF tb_ss_hub_vga IS
             btn_down_ss: in std_logic;
             btn_left_ss: in std_logic;
             btn_right_ss: in std_logic;
+=======
+			
+			toggle : in STD_LOGIC;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			
 			--vga
 			vgaRed: out STD_LOGIC_VECTOR(3 downto 0);
@@ -53,6 +58,7 @@ end component;
     signal clk : std_logic := '0';
     signal reset : std_logic := '0';
 	signal op_comp : std_logic := '0';
+<<<<<<< HEAD
 	signal ir_comp : std_logic := '0';
 	signal calibrate: std_logic:= '0';
 	signal btn_up_ss: std_logic:= '0';
@@ -62,6 +68,10 @@ end component;
 	signal to_filter : std_logic;
 	signal toggle : std_logic := '0';
 	signal toggle2 : std_logic := '0';
+=======
+	signal to_filter : std_logic;
+	signal toggle : std_logic := '0';
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 	signal vgaRed: STD_LOGIC_VECTOR(3 downto 0);
     signal vgaGreen: STD_LOGIC_VECTOR(3 downto 0);
     signal vgaBlue: STD_LOGIC_VECTOR(3 downto 0);
@@ -91,6 +101,7 @@ BEGIN
           clk => clk,
 		  reset => reset,
 		  op_comp => op_comp,
+<<<<<<< HEAD
 		  ir_comp => ir_comp,
 		  to_filter => to_filter,
 		  btn_up_ss => btn_up_ss,
@@ -100,6 +111,10 @@ BEGIN
 		  toggle => toggle,
 		  toggle2 => toggle2,
 		  calibrate => calibrate,
+=======
+		  to_filter => to_filter,
+		  toggle => toggle,
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 		  vgaRed => vgaRed,
 		  vgaBlue => vgaBlue,
 		  vgaGreen => vgaGreen,
@@ -143,8 +158,14 @@ BEGIN
    comp_proc: process
    begin
 		wait for 500 ns;
+<<<<<<< HEAD
 		ir_comp <= '1';
 		wait for 500 ns;
 		ir_comp <= '0';
+=======
+		op_comp <= '1';
+		wait for 500 ns;
+		op_comp <= '0';
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
    end process;
 END;
