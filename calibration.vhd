@@ -14,7 +14,8 @@ END calibration;
 
 ARCHITECTURE Behavioral OF calibration IS
 
-constant exp_amp : integer := 1315;
+
+constant exp_amp : integer := 280;
 signal   i_offset : integer;
 signal   temp_offset : integer;
 signal   d_button : std_logic;
@@ -63,5 +64,5 @@ cal_bouncer: debounce
     end if;
   end process;
 
-  offset <= temp_offset;--i_offset;
+  offset <= i_offset;
 end behavioral;

@@ -17,8 +17,15 @@ architecture behaviour of tb_changeparametersmodule is
 		  btn_left: in std_logic;
 		  btn_right: in std_logic;
 		  
+<<<<<<< HEAD
+		  --scale_up: in std_logic;
+		  --scale_down: in std_logic;
+		  
+		  scaleOutParams: out std_logic_vector(3 downto 0);
+=======
 		  scale_up: in std_logic;
 		  scale_down: in std_logic;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 		  
 		  box_x_position: out std_logic_vector(9 downto 0);
 		  box_y_position: out std_logic_vector(9 downto 0)
@@ -41,6 +48,11 @@ signal scale_down : std_logic:= '0';
 signal box_x_position : std_logic_vector(9 downto 0):= "0000000000";
 signal box_y_position : std_logic_vector(9 downto 0):= "0000000000";
 
+<<<<<<< HEAD
+signal scaleOutParams : std_logic_vector(3 downto 0):= "0101";
+
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 
 		  
 begin 
@@ -54,8 +66,14 @@ uut: ChangeParametersModule
 	btn_down => btn_down,
 	btn_left => btn_left,
 	btn_right => btn_right,
+<<<<<<< HEAD
+	--scale_up => scale_up,
+	--scale_down => scale_down,
+	scaleOutParams => scaleOutParams,
+=======
 	scale_up => scale_up,
 	scale_down => scale_down,
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 	box_x_position => box_x_position,
 	box_y_position => box_y_position
     );
@@ -80,6 +98,12 @@ uut: ChangeParametersModule
             reset <= '0';
           wait for 100 ns;    
             reset <= '1';
+<<<<<<< HEAD
+            
+          wait for 100 ns;
+            reset <= '0';
+=======
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
           wait;
        end process;
        
@@ -89,7 +113,11 @@ uut: ChangeParametersModule
           -- hold reset state for 100 ns.
           wait for 400 ns;    
             btn_up <= '1';
+<<<<<<< HEAD
+          wait for 10 ms;
+=======
           wait for 1 ms;
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 			btn_up <= '0';
 			
 		  wait for 100 ns;    
@@ -106,6 +134,9 @@ uut: ChangeParametersModule
             btn_right <= '1';
           wait for 1 ms;
 			btn_right <= '0';
+<<<<<<< HEAD
+		  wait;
+=======
 			
 		  wait for 100 ns;    
             scale_up <= '1';
@@ -116,6 +147,7 @@ uut: ChangeParametersModule
             scale_down <= '1';
           wait for 1 ms;
 			scale_down <= '0';
+>>>>>>> b9fee138f175d338331473809642f5f1799d66ff
 
        end process;
        
