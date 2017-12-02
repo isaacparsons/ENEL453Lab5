@@ -6,8 +6,12 @@ Port ( 		clk   : in STD_LOGIC;
 			reset : in STD_LOGIC; -- U17
 			op_comp : in STD_LOGIC; --JB1
 			to_filter : out STD_LOGIC; --JB0
+
+			ir_comp : in std_logic;
 			
 			toggle : in STD_LOGIC;
+			toggle2: in std_logic;
+
 			calibrate : in STD_LOGIC;--Added for calibration
 			
 			--vga
@@ -16,6 +20,13 @@ Port ( 		clk   : in STD_LOGIC;
             vgaBlue: out STD_LOGIC_VECTOR(3 downto 0);
             hsync: out STD_LOGIC;
             vsync: out STD_LOGIC;
+
+            
+            --change stuff
+            btn_up_ss: in std_logic;
+            btn_down_ss: in std_logic;
+            btn_left_ss: in std_logic;
+            btn_right_ss: in std_logic;
 			
 			--sevensegment stuff
 			CA : out  STD_LOGIC;
@@ -40,6 +51,9 @@ signal i_to_filter : STD_LOGIC;
 signal i_saw_amp   : integer;
 signal i_locked_amp: std_logic_vector(10 downto 0);  --was 8
 signal i_locked_int: std_logic_vector(10 downto 0);
+
+signal i_offset: std_logic_vector(10 downto 0);
+
 signal i_amp_int   : std_logic_vector(10 downto 0);
 
 signal i_unused : std_logic_vector(3 downto 0);
@@ -47,10 +61,22 @@ signal i_rsd : std_logic_vector(3 downto 0);
 signal i_msd : std_logic_vector(3 downto 0);
 signal i_lsd : std_logic_vector(3 downto 0);
 
+
+signal box_x_position_ss: std_logic_vector(9 downto 0);
+signal box_y_position_ss: std_logic_vector(9 downto 0);
+
+signal scale_i: std_logic_vector(3 downto 0);
+
+signal goal_i: std_logic;
+
+signal score_value_i: std_logic_vector(2 downto 0);
+
 --Components:
+
 component sevensegment_controller
 	Port ( clk : in STD_LOGIC;
 		   reset : in STD_LOGIC;
+		   toggle : in std_logic;
 		   Binary_Value : in STD_LOGIC_VECTOR (10 downto 0); -- was 8
 		   CA : out STD_LOGIC;
 		   CB : out STD_LOGIC;
@@ -78,6 +104,25 @@ component bin2bcd
           );
 end component;
 
+
+component ChangeParametersModule
+    Port (clk: in std_logic;
+	      reset: in std_logic;
+		  btn_up: in std_logic;
+		  btn_down: in std_logic;
+		  btn_left: in std_logic;
+		  btn_right: in std_logic;
+		  
+		  --scale_up: in std_logic;
+		  --scale_down: in std_logic;
+		  
+		  box_x_position: out std_logic_vector(9 downto 0);
+		  box_y_position: out std_logic_vector(9 downto 0);
+		  scaleOutParams: out std_logic_vector(3 downto 0)  
+	);
+end component;
+
+
 component VgaModuleLab5
     Port (  clk : in  STD_LOGIC;
 			reset : in STD_LOGIC;
@@ -91,11 +136,36 @@ component VgaModuleLab5
 			secondDigitIn : in std_logic_vector(3 downto 0);
 			thirdDigitIn : in std_logic_vector(3 downto 0);
 			scale : in std_logic_vector(3 downto 0);
+			ConvertedScoreVGAModuleIn: in std_logic_vector(2 downto 0);
+
 			
 			box_x_positionInVga: in std_logic_vector(9 downto 0);
 			box_y_positionInVga: in std_logic_vector(9 downto 0)--;
 	 );
 end component;
+
+
+component goal_register
+    Port ( reset : in std_logic;
+            clk 		: in  STD_LOGIC;
+			   ir_sig : in STD_LOGIC;
+			   goal     : out STD_LOGIC
+			 );
+			 
+end component;
+
+component IRReceiverModule
+    Port (clk : in std_logic;
+		      reset : in std_logic;
+		      irSignal : in std_logic; -- low means that the ball crossed and we must get the value of the dist.
+			  distanceDigitOne : in std_logic_vector(3 downto 0); -- value of 0 to 3
+			  distanceDigitTwo : in std_logic_vector(3 downto 0); -- value of 0 to 9 
+			  distanceDigitThree : in std_logic_vector(3 downto 0); -- value of 0 to 9
+			  
+			  convertedScore : out std_logic_vector(2 downto 0) -- score recevied
+				 );
+end component;
+
 
 component saw_wave
 	Port ( 	clk   : in STD_LOGIC;
@@ -105,12 +175,17 @@ component saw_wave
 			);
 end component;
 			
-component amp_lock_cal
+
+component amp_lock_cal_2
+
 	Port (	clk   : in STD_LOGIC;
 			reset : in STD_LOGIC;
 			comp_state : in STD_LOGIC;
 			calibrate  : in STD_LOGIC; --added for calibration
 			saw_amp    : in integer;
+
+			e_offset   : out std_logic_vector(10 downto 0);
+
 			locked_amp : out std_logic_vector(10 downto 0); -- was 8
 			locked_int : out std_logic_vector(10 downto 0)
 			);
@@ -127,10 +202,31 @@ sw_int_amp :process(toggle)
 begin
     if(toggle = '0') then
         i_amp_int <= i_locked_amp;
+
+    elsif(toggle2 = '1') then
+        i_amp_int <= i_offset;
+
     else
         i_amp_int <= i_locked_int;
     end if;
 end process;
+
+changeStuff: ChangeParametersModule 
+    Port Map(
+    clk => clk,
+    reset => reset, 
+	btn_up => btn_up_ss,
+	btn_down => btn_down_ss,
+	btn_left => btn_left_ss,
+	btn_right => btn_right_ss,
+	--scale_up => scale_up,
+	--scale_down => scale_down,
+	box_x_position => box_x_position_ss,
+	box_y_position => box_y_position_ss,
+	scaleOutParams => scale_i
+	
+    );
+
 
 Vga : VgaModuleLab5
 	Port MAP(clk => clk,
@@ -142,14 +238,36 @@ Vga : VgaModuleLab5
 			vsync => vsync,
 			
 			firstDigitIn => i_lsd,
-			secondDigitIn => i_msd,
+
+			secondDigitIn =>i_msd,
 			thirdDigitIn =>	i_rsd,
-			scale => "0011",
+			scale => scale_i,
+			ConvertedScoreVGAModuleIn => score_value_i,                 -------------- change to adjust scale (if testing is required)
 			
-			box_x_positionInVga => "0000000000",
-			box_y_positionInVga => "0000000000"
+			box_x_positionInVga => box_x_position_ss,
+			box_y_positionInVga => box_y_position_ss
 			);
 			
+goal_reg: goal_register
+    Port Map(reset => reset,
+             clk => clk,
+            ir_sig => ir_comp,
+            goal => goal_i
+    );
+    
+			
+irReceiver: IRReceiverModule
+    Port Map(
+    clk => clk,
+    reset => reset,
+	irSignal => goal_i,
+    distanceDigitOne => i_lsd,
+	distanceDigitTwo => i_msd,
+	distanceDigitThree => i_rsd,
+	convertedScore => score_value_i
+    );
+			
+
 vga_num : bin2bcd
 	port map(clk => clk,
 			rst => reset,
@@ -168,13 +286,17 @@ saw: saw_wave
 				waveform => i_to_filter
 			);
 			
-comp_check: amp_lock_cal
+
+comp_check: amp_lock_cal_2
 	PORT MAP (
 				clk => clk,
 				reset => reset,
 				comp_state => op_comp,
 				calibrate => calibrate,
 				saw_amp => i_saw_amp,
+
+				e_offset => i_offset,
+
 				locked_amp => i_locked_amp,
 				locked_int => i_locked_int
 				);
@@ -183,6 +305,8 @@ ss_top: sevensegment_controller
 	PORT MAP (
 		  clk => clk,
 		  reset => reset,
+
+		  toggle => toggle,
 		  Binary_Value => i_amp_int,
 		  CA => CA,
 		  CB => CB,

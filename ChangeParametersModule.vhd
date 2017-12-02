@@ -9,9 +9,11 @@ entity ChangeParametersModule is
 		  btn_left: in std_logic;
 		  btn_right: in std_logic;
 		  
-		  scale_up: in std_logic;
-		  scale_down: in std_logic;
+		  --scale_up: in std_logic;
+		  --scale_down: in std_logic;
 		  
+		  scaleOutParams: out std_logic_vector(3 downto 0);
+
 		  box_x_position: out std_logic_vector(9 downto 0);
 		  box_y_position: out std_logic_vector(9 downto 0)	  
 	);
@@ -39,8 +41,9 @@ component VGAMoveLetters is
 				   btnLeft : in std_logic;
 				   btnRight : in std_logic;
 				   
-				   increaseScale : in std_logic;
-				   decreaseScale : in std_logic;
+				   --increaseScale : in std_logic;
+				   --decreaseScale : in std_logic;
+
 				   
 				   box_x_positionOut : out std_logic_vector(9 downto 0);
 				   box_y_positionOut : out std_logic_vector(9 downto 0);
@@ -57,6 +60,9 @@ signal rightInternal: std_logic;
 signal scaleUpInternal: std_logic;
 signal scaleDownInternal: std_logic;
 
+signal scaleOut_i: std_logic_vector(3 downto 0);
+
+
 begin
 
 vgamove: VGAMoveLetters
@@ -66,15 +72,20 @@ vgamove: VGAMoveLetters
 			 btnDown => downInternal,
 			 btnRight => rightInternal,
 			 btnLeft => leftInternal,
-			 increaseScale => scaleUpInternal,
-			 decreaseScale => scaleDownInternal,
+
+			 --increaseScale => scaleUpInternal,
+			 --decreaseScale => scaleDownInternal,
 			 box_x_positionOut => box_x_position,
-			 box_y_positionOut => box_y_position
+			 box_y_positionOut => box_y_position, 
+			 scaleOut => scaleOut_i
+
 			 
 			 );
 
 up_bouncer: debounce
-	Generic map(counter_size => 20)
+
+	Generic map(counter_size => 15)
+
 	Port map(clk => clk,
 	         button => btn_up,
 			 reset => reset,
@@ -82,7 +93,9 @@ up_bouncer: debounce
 	);
 	
 down_bouncer: debounce
-	Generic map(counter_size => 20)
+
+	Generic map(counter_size => 15)
+
 	Port map(clk => clk,
 			 reset => reset,
 			 button => btn_down,
@@ -90,7 +103,9 @@ down_bouncer: debounce
 	);
 	
 left_bouncer: debounce
-	Generic map(counter_size => 20)
+
+	Generic map(counter_size => 15)
+
 	Port map(clk => clk,
 			 reset => reset,
 			 button => btn_left,
@@ -98,26 +113,30 @@ left_bouncer: debounce
 	);
 	
 right_bouncer: debounce
-	Generic map(counter_size => 20)
+
+	Generic map(counter_size => 15)
+
 	Port map(clk => clk,
 			 reset => reset,
 			 button => btn_right,
 			 result => rightInternal
 	);
 	
-scale_up_bouncer: debounce
-	Generic map(counter_size => 20)
-	Port map(clk => clk,
-			 reset => reset,
-			 button => scale_up,
-			 result => scaleUpInternal
-	);
-scale_down_bouncer: debounce
-	Generic map(counter_size => 20)
-	Port map(clk => clk,
-			 reset => reset,
-			 button => scale_down,
-			 result => scaleDownInternal
-	);
 
+--scale_up_bouncer: debounce
+--	Generic map(counter_size => 20)
+	--Port map(clk => clk,
+		--	 reset => reset,
+			-- button => scale_up,
+			 --result => scaleUpInternal
+	--);
+--scale_down_bouncer: debounce
+	--Generic map(counter_size => 20)
+	--Port map(clk => clk,
+		--	 reset => reset,
+			-- button => scale_down,
+			 --result => scaleDownInternal
+	--);
+
+scaleOutParams <= scaleOut_i;
 end Behavioral;
