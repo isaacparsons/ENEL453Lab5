@@ -16,7 +16,9 @@ entity sevensegment_decoder is
 end sevensegment_decoder;
 
 architecture behavioral of sevensegment_decoder is
-	signal decoded_bits: std_logic_vector(6 downto 0);
+
+signal decoded_bits: std_logic_vector(6 downto 0);
+
 begin
 
 decoding: process(data) 
@@ -37,7 +39,7 @@ begin
 	end case;
 end process;
 
--- the leds that compose the segments are actually active low
+-- the leds that compose the segments are active low
 dp <= not dp_in;
 ca <= not decoded_bits(6);
 cb <= not decoded_bits(5);
