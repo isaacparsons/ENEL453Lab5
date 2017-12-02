@@ -29,7 +29,7 @@ begin
            		q(2) <= d(2);
            		q(3) <= d(3);
         	end if;
-        lastState <= switch; 
+        	lastState <= switch; 
 	end if;
 end process;
 
