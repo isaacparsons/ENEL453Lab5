@@ -61,6 +61,5 @@ begin
         cm_tenths <= std_logic_vector(bcd(7 downto 4));    
         cm_hundredths <= std_logic_vector(bcd(3 downto 0));
     end if;  
-  end process bcd1;
-    
+  end process bcd1;    
 end behavioral;
