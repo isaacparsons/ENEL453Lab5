@@ -1,35 +1,35 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 
 entity saw_wave is
-    Port ( clk   : in  STD_LOGIC;
-		   reset        : in  STD_LOGIC;
+    port ( clk   : in  std_logic;
+		   reset        : in  std_logic;
 		   outamplitude : out integer;
-		   waveform		: out STD_LOGIC--;
+		   waveform		: out std_logic--;
 		  );
 end saw_wave;
 
-architecture Behavioral of saw_wave is
+architecture behavioral of saw_wave is
 
-signal i_waveform : STD_LOGIC;
+signal i_waveform : std_logic;
 signal inc_ramp   : integer; --ramp amplitude to increment
 signal int_count  : integer; --internal count
-signal max_count  : integer := 9766;--19532;--9766;
---Amount of time per pwm_gen segment(10ns*2048)
+constant max_count  : integer := 9766;
+--amount of time per pwm_gen segment(10ns*2048)
 --do 5 segments before increasing (10ns*2148*5)
 --invert that and you get a count each 9765.6 clock cycles
 
 
-COMPONENT pwm_gen
-    Port ( clk   	  : in  STD_LOGIC;
+component pwm_gen
+    port ( clk   	  : in  std_logic;
 		   duty_cycle : in integer;
-		   reset 	  : in  STD_LOGIC;
-		   waveform   : out STD_LOGIC
+		   reset 	  : in  std_logic;
+		   waveform   : out std_logic
 		  );
-END COMPONENT;
+end component;
 
 begin
 
@@ -57,13 +57,13 @@ begin
 		end if;
 		
 		if(int_count = max_count) then
-			if(inc_ramp < 2047) then --changed from 511
+			if(inc_ramp < 2047) then
 				inc_ramp <= inc_ramp + 1;
-			elsif(inc_ramp >= 2047) then --changed from 511
+			elsif(inc_ramp >= 2047) then
 				inc_ramp <= 0;
 			end if;
 		end if;
 	 end if;
 end process;
 
-end Behavioral;
+end behavioral;

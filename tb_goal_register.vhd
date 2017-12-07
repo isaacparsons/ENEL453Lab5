@@ -1,24 +1,24 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity tb_goal_register is
 end tb_goal_register;
 
-ARCHITECTURE behavior OF tb_goal_register IS 
+architecture behavior of tb_goal_register is 
  
-    -- Component Declaration for the Unit Under Test (UUT)
+    -- component declaration for the unit under test (uut)
  
-    COMPONENT  goal_register is
-		Port ( clk    : in  STD_LOGIC;
-			   reset  : in  STD_LOGIC;
-			   ir_sig : in STD_LOGIC;
-			   goal   : out STD_LOGIC
+    component  goal_register is
+		port ( clk    : in  std_logic;
+			   reset  : in  std_logic;
+			   ir_sig : in std_logic;
+			   goal   : out std_logic
 			 );
 end component;
     
-    --Inputs
+    --inputs
     signal clk : std_logic := '0';
     signal reset : std_logic := '0';
 	signal ir_sig : std_logic := '0';
@@ -26,13 +26,13 @@ end component;
 
 
 	
-   -- Clock period definitions
+   -- clock period definitions
    constant clk_period : time := 10 ns;
  
-BEGIN
+begin
  
-	-- Instantiate the Unit Under Test (UUT)
-   uut: goal_register PORT MAP (
+	-- instantiate the unit under test (uut)
+   uut: goal_register port map (
           clk => clk,
 		  reset => reset,
 		  ir_sig => ir_sig,
@@ -41,7 +41,7 @@ BEGIN
 
   
    
-   -- Clock process definitions
+   -- clock process definitions
    clk_process: process
    begin
 		clk <= '0';
@@ -50,7 +50,7 @@ BEGIN
 		wait for clk_period/2;
    end process; 
 
-   -- Stimulus process
+   -- stimulus process
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
@@ -69,4 +69,4 @@ BEGIN
 		wait for 500 ns;
 		ir_sig <= '0';
    end process;
-END;
+end;

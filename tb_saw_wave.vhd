@@ -1,37 +1,37 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity tb_saw_wave is
 end tb_saw_wave;
 
-ARCHITECTURE behavior OF tb_saw_wave IS 
+architecture behavior of tb_saw_wave is 
  
-    -- Component Declaration for the Unit Under Test (UUT)
+    -- component declaration for the unit under test (uut)
  
-    COMPONENT saw_wave
-    Port ( clk     	   : in  STD_LOGIC;
-		   reset       : in  STD_LOGIC;
+    component saw_wave
+    port ( clk     	   : in  std_logic;
+		   reset       : in  std_logic;
 		   outamplitude: out integer;
 		   waveform	   : out std_logic--;
 		   );
-	END COMPONENT;
+	end component;
     
-    --Inputs
+    --inputs
     signal clk : std_logic := '0';
     signal reset : std_logic := '0';
 	signal outamplitude : integer := 0;
 	signal waveform : std_logic;
 
 	
-   -- Clock period definitions
+   -- clock period definitions
    constant clk_period : time := 10 ns;
  
-BEGIN
+begin
  
-	-- Instantiate the Unit Under Test (UUT)
-   uut: saw_wave PORT MAP (
+	-- instantiate the unit under test (uut)
+   uut: saw_wave port map (
           clk => clk,
           reset => reset,
 		  outamplitude => outamplitude,
@@ -40,7 +40,7 @@ BEGIN
 
   
    
-   -- Clock process definitions
+   -- clock process definitions
    clk_process :process
    begin
 		clk <= '0';
@@ -49,7 +49,7 @@ BEGIN
 		wait for clk_period/2;
    end process; 
 
-   -- Stimulus process
+   -- stimulus process
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
@@ -60,4 +60,4 @@ BEGIN
 		reset <= '0';
       wait;
    end process;
-END;
+end;

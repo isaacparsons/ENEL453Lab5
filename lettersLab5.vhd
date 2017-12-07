@@ -1,28 +1,28 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-USE ieee.numeric_std.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.std_logic_unsigned.all;
 
-entity lettersLab5 is
+entity letterslab5 is
 
-	Port (pixel_clkVGA: in std_logic;
-	       scan_line_x_l: in STD_LOGIC_VECTOR(10 downto 0);
-			scan_line_y_l: in STD_LOGIC_VECTOR(10 downto 0);
+	port (pixel_clkvga: in std_logic;
+	       scan_line_x_l: in std_logic_vector(10 downto 0);
+			scan_line_y_l: in std_logic_vector(10 downto 0);
 
-            letter_color: in STD_LOGIC_VECTOR(11 downto 0);
+            letter_color: in std_logic_vector(11 downto 0);
 			scale : in std_logic_vector(3 downto 0);
 			
-			firstDigit : in std_logic_vector(3 downto 0);
-			secondDigit : in std_logic_vector(3 downto 0);
-			thirdDigit : in std_logic_vector(3 downto 0);
+			firstdigit : in std_logic_vector(3 downto 0);
+			seconddigit : in std_logic_vector(3 downto 0);
+			thirddigit : in std_logic_vector(3 downto 0);
 
-			ConvertedScoreVGAIn: in std_logic_vector(2 downto 0);
+			convertedscorevgain: in std_logic_vector(2 downto 0);
 
-			box_x_positionIn: in std_logic_vector(9 downto 0);
-            box_y_positionIn: in std_logic_vector(9 downto 0);
+			box_x_positionin: in std_logic_vector(9 downto 0);
+            box_y_positionin: in std_logic_vector(9 downto 0);
 			
-			red: out STD_LOGIC_VECTOR(3 downto 0);
-			blue: out STD_LOGIC_VECTOR(3 downto 0);
+			red: out std_logic_vector(3 downto 0);
+			blue: out std_logic_vector(3 downto 0);
 			green: out std_logic_vector(3 downto 0)
 		  );
 end lettersLab5;
@@ -47,6 +47,7 @@ signal SelectedLetterFirstDigit: LetterMatrix;--:= ((0,0,0,1,1,1,1,1,1,1,0,0,0),
 --                                                   (0,0,1,1,0,0,0,0,0,1,1,0,0),
 --                                                   (0,0,1,1,1,1,1,1,1,1,1,0,0),
 --                                                   (0,0,0,1,1,1,1,1,1,1,0,0,0));--most significant
+
 signal SelectedLetterSecondDigit: LetterMatrix;--:=((0,0,0,1,1,1,1,1,1,1,0,0,0),		
 --                                                  (0,0,1,1,1,1,1,1,1,1,1,0,0),
 --                                                  (0,0,1,1,0,0,0,0,0,1,1,0,0),
@@ -398,26 +399,26 @@ constant colon: LetterMatrix:=((0,0,0,0,0,0,0,0,0,0,0,0,0),
 							   (0,0,0,0,0,0,0,0,0,0,0,0,0));
  
  --add buttons to move the letters around up down left and right to sensitivity list
- signal pixel_color: std_logic_vector(11 downto 0);
- signal scaleInt : integer;
+signal pixel_color: std_logic_vector(11 downto 0);
+signal scaleInt : integer;
  
+signal xindexforEachLetter: integer:= 0;
+signal ytotalIndex: integer:= 0;
  
- signal xindexforEachLetter: integer:= 0;
- signal ytotalIndex: integer:= 0;
+signal box_x_positionInt: integer:= 0;
+signal box_y_positionInt: integer:= 0;
  
- signal box_x_positionInt: integer:= 0;
- signal box_y_positionInt: integer:= 0;
+signal scan_line_x_INT: integer;
+signal scan_line_y_INT: integer;
  
- signal scan_line_x_INT: integer;
- signal scan_line_y_INT: integer;
- 
- 
- constant downScreenBound : std_logic_vector(10 downto 0):= "00111011111"; -- 479
- constant rightScreenBound : std_logic_vector(10 downto 0):= "01001111111"; -- 639
+constant downScreenBound : std_logic_vector(10 downto 0):= "00111011111"; -- 479
+constant rightScreenBound : std_logic_vector(10 downto 0):= "01001111111"; -- 639
  
 type ArrayofLetters is array(0 to 12) of LetterMatrix;
 constant LettersArray: ArrayofLetters:= (zero, one, two, three, four, five, six, seven, eight, nine, point, C, M);
- begin
+
+begin
+
 scaleInt <= to_integer(unsigned(scale));
 
 SelectedLetterFirstDigit <= LettersArray(to_integer(unsigned(firstDigit + 4)));
@@ -441,21 +442,13 @@ updatePixel: process(pixel_clkVGA, scan_line_x_l, scan_line_y_l) begin
                 end if;
             end if;
         end if;
-        if(scan_line_y_INT = 1) then            -- changed both ones to zeros
+        if(scan_line_y_INT = 1) then
             ytotalIndex <= 0;
         end if;
         if(scan_line_x_INT = 1) then
            xindexforEachLetter <= 0;
         end if;
-        --if((scan_line_y_INT >= box_y_positionInt) and (scan_line_y_INT < box_y_positionInt + (14*scaleInt))) then
-        --    if((scan_line_y_INT mod scaleInt = 0) and (scan_line_y_INT /= 0)) then
-        --        if(ytotalIndex < 13) then
-        --            ytotalIndex <= ytotalIndex + 1;
-        --        else
-        --            ytotalIndex <= 0;
-        --        end if;
-        --    end if;
-        --end if;
+
         
         if(scan_line_x_INT = 639 and scan_line_y_INT < (scaleInt * 3 * 14))then
             if(scan_line_y_INT mod scaleInt = 0) then
@@ -549,10 +542,8 @@ updatePixel: process(pixel_clkVGA, scan_line_x_l, scan_line_y_l) begin
 
         if(scan_line_y_INT < box_y_positionInt or (scan_line_y_INT > box_y_positionInt + (scaleInt * 14*3))) then
             pixel_color <="111111111111";
-        --elsif((scan_line_x_INT >= box_x_positionInt) and (scan_line_x_INT < box_x_positionInt +(scaleInt * 6 * 13))) then
         elsif((currentCharacter(ytotalIndex, xindexforEachLetter) = 1)) then
              pixel_color <= letter_color;
-            --end if;
         else 
             pixel_color <= "111111111111";
         end if;  

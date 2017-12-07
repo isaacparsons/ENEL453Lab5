@@ -1,16 +1,16 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 
 entity tb_calibration is
 end tb_calibration;
 
-ARCHITECTURE behavior OF tb_calibration IS 
+architecture behavior of tb_calibration is 
  
-    -- Component Declaration for the Unit Under Test (UUT)
+    -- component declaration for the unit under test (uut)
  
-    COMPONENT calibration
-		Port (	clk     : in  std_logic;  
+    component calibration
+		port (	clk     : in  std_logic;  
 				reset   : in  std_logic;  
 				button  : in  std_logic;
 				saw_amp : in  integer;
@@ -18,20 +18,20 @@ ARCHITECTURE behavior OF tb_calibration IS
 				);
 	end component;
     
-    --Inputs
-    signal clk : std_logic := '0';
-    signal reset : std_logic := '0';
-	signal saw_amp : integer := 0;
-	signal button  : std_logic := '0';
-	signal offset: integer := 0;
+    --inputs
+signal clk : std_logic := '0';
+signal reset : std_logic := '0';
+signal saw_amp : integer := 0;
+signal button  : std_logic := '0';
+signal offset: integer := 0;
 	
-   -- Clock period definitions
-   constant clk_period : time := 10 ns;
+-- clock period definitions
+constant clk_period : time := 10 ns;
  
-BEGIN
+begin
  
-	-- Instantiate the Unit Under Test (UUT)
-   uut: calibration PORT MAP (
+	-- instantiate the unit under test (uut)
+   uut: calibration port map (
           clk => clk,
           reset => reset,
 		  button => button,
@@ -41,7 +41,7 @@ BEGIN
 
   
    
-   -- Clock process definitions
+   -- clock process definitions
    clk_process :process
    begin
 		clk <= '0';
@@ -50,7 +50,7 @@ BEGIN
 		wait for clk_period/2;
    end process; 
 
-   -- Stimulus process
+   -- stimulus process
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
@@ -64,7 +64,7 @@ BEGIN
    
    amp_proc: process
    begin
-		saw_amp <= 24; --Change this to test
+		saw_amp <= 24; --change this to test
 		wait for 12 ms;
 		saw_amp <= 1300;
 		wait for 23 ms;
@@ -80,4 +80,4 @@ BEGIN
 		button <= '0';
 		wait for 11 ms;
 	end process;
-END;
+end;

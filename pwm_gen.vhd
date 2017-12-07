@@ -1,18 +1,18 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 
 entity pwm_gen is
-    Port ( clk   : in  STD_LOGIC;
+    port ( clk   : in  std_logic;
 		   duty_cycle: in integer; -- between 0 and max_count;
-		   reset       : in  STD_LOGIC;
-		   waveform    : out STD_LOGIC
+		   reset       : in  std_logic;
+		   waveform    : out std_logic
 		  );
 end pwm_gen;
 
-architecture Behavioral of pwm_gen is
+architecture behavioral of pwm_gen is
 
 signal i_waveform: std_logic;
 signal count: integer;
@@ -40,4 +40,4 @@ begin
     end if;
 end process;
 
-end Behavioral;
+end behavioral;

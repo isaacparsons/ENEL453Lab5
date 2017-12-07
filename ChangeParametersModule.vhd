@@ -1,142 +1,117 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
-entity ChangeParametersModule is
-	Port (clk: in std_logic;
+entity changeparametersmodule is
+	port (clk: in std_logic;
 	      reset: in std_logic;
 		  btn_up: in std_logic;
 		  btn_down: in std_logic;
 		  btn_left: in std_logic;
 		  btn_right: in std_logic;
-		  
-		  --scale_up: in std_logic;
-		  --scale_down: in std_logic;
-		  
-		  scaleOutParams: out std_logic_vector(3 downto 0);
+		  scaleoutparams: out std_logic_vector(3 downto 0);
 
 		  box_x_position: out std_logic_vector(9 downto 0);
 		  box_y_position: out std_logic_vector(9 downto 0)	  
 	);
-end ChangeParametersModule;
+end changeparametersmodule;
 	
-architecture Behavioral of ChangeParametersModule is
+architecture behavioral of changeparametersmodule is
 
 
 component debounce is
-      GENERIC(
-			counter_size  :  INTEGER := 20); --counter size (20 bits gives 10.5ms with 100MHz clock)
-      PORT(
-			clk     : IN  STD_LOGIC;  --input clock
-			button  : IN  STD_LOGIC;  --input signal to be debounced
-			reset   : IN  STD_LOGIC;  --reset
-			result  : OUT STD_LOGIC   --debounced signal
+      generic(
+			counter_size  :  integer := 20); 
+      port(
+			clk     : in  std_logic;  
+			button  : in  std_logic;  
+			reset   : in  std_logic;  
+			result  : out std_logic   
     );
-END component;
+end component;
 
-component VGAMoveLetters is
-      Port ( clk : in  STD_LOGIC;
-				   reset : in  STD_LOGIC;
-				   btnUp : in std_logic;
-				   btnDown : in std_logic;
-				   btnLeft : in std_logic;
-				   btnRight : in std_logic;
+component vgamoveletters is
+      port ( clk : in  std_logic;
+				   reset : in  std_logic;
+				   btnup : in std_logic;
+				   btndown : in std_logic;
+				   btnleft : in std_logic;
+				   btnright : in std_logic;
 				   
-				   --increaseScale : in std_logic;
-				   --decreaseScale : in std_logic;
-
-				   
-				   box_x_positionOut : out std_logic_vector(9 downto 0);
-				   box_y_positionOut : out std_logic_vector(9 downto 0);
-				   scaleOut : out std_logic_vector(3 downto 0)
+			   
+				   box_x_positionout : out std_logic_vector(9 downto 0);
+				   box_y_positionout : out std_logic_vector(9 downto 0);
+				   scaleout : out std_logic_vector(3 downto 0)
 				 
     );
-END component;
+end component;
 
-signal upInternal: std_logic;
-signal downInternal: std_logic;
-signal leftInternal: std_logic;
-signal rightInternal: std_logic;
+signal upinternal: std_logic;
+signal downinternal: std_logic;
+signal leftinternal: std_logic;
+signal rightinternal: std_logic;
 
-signal scaleUpInternal: std_logic;
-signal scaleDownInternal: std_logic;
+signal scaleupinternal: std_logic;
+signal scaledowninternal: std_logic;
 
-signal scaleOut_i: std_logic_vector(3 downto 0);
+signal scaleout_i: std_logic_vector(3 downto 0);
 
 
 begin
 
-vgamove: VGAMoveLetters
-	Port map(clk => clk,
+vgamove: vgamoveletters
+	port map(clk => clk,
 			 reset => reset,
-			 btnUp => upInternal,
-			 btnDown => downInternal,
-			 btnRight => rightInternal,
-			 btnLeft => leftInternal,
+			 btnup => upinternal,
+			 btndown => downinternal,
+			 btnright => rightinternal,
+			 btnleft => leftinternal,
 
-			 --increaseScale => scaleUpInternal,
-			 --decreaseScale => scaleDownInternal,
-			 box_x_positionOut => box_x_position,
-			 box_y_positionOut => box_y_position, 
-			 scaleOut => scaleOut_i
+			 box_x_positionout => box_x_position,
+			 box_y_positionout => box_y_position, 
+			 scaleout => scaleout_i
 
 			 
 			 );
 
 up_bouncer: debounce
 
-	Generic map(counter_size => 15)
+	generic map(counter_size => 15)
 
-	Port map(clk => clk,
+	port map(clk => clk,
 	         button => btn_up,
 			 reset => reset,
-			 result => upInternal
+			 result => upinternal
 	);
 	
 down_bouncer: debounce
 
-	Generic map(counter_size => 15)
+	generic map(counter_size => 15)
 
-	Port map(clk => clk,
+	port map(clk => clk,
 			 reset => reset,
 			 button => btn_down,
-			 result => downInternal
+			 result => downinternal
 	);
 	
 left_bouncer: debounce
 
-	Generic map(counter_size => 15)
+	generic map(counter_size => 15)
 
-	Port map(clk => clk,
+	port map(clk => clk,
 			 reset => reset,
 			 button => btn_left,
-			 result => leftInternal
+			 result => leftinternal
 	);
 	
 right_bouncer: debounce
 
-	Generic map(counter_size => 15)
+	generic map(counter_size => 15)
 
-	Port map(clk => clk,
+	port map(clk => clk,
 			 reset => reset,
 			 button => btn_right,
-			 result => rightInternal
+			 result => rightinternal
 	);
-	
 
---scale_up_bouncer: debounce
---	Generic map(counter_size => 20)
-	--Port map(clk => clk,
-		--	 reset => reset,
-			-- button => scale_up,
-			 --result => scaleUpInternal
-	--);
---scale_down_bouncer: debounce
-	--Generic map(counter_size => 20)
-	--Port map(clk => clk,
-		--	 reset => reset,
-			-- button => scale_down,
-			 --result => scaleDownInternal
-	--);
-
-scaleOutParams <= scaleOut_i;
-end Behavioral;
+scaleoutparams <= scaleout_i;
+end behavioral;

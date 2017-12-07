@@ -31,18 +31,18 @@ signal clk : std_logic := '0';
 signal rst : std_logic := '0';
 
 --outputs
-signal     ca :  std_logic:= '0';
-signal     cb :  std_logic:= '0';
-signal      cc :  std_logic:= '0';
-signal      cd :  std_logic:= '0';
-signal      ce :  std_logic:= '0';
-signal      cf :  std_logic:= '0';
-signal       cg :  std_logic:= '0';
-signal       dp :  std_logic:= '0';
-signal      an1 :  std_logic:= '0';
-signal       an2 :  std_logic:= '0';
-signal      an3 :  std_logic:= '0';
-signal       an4 :  std_logic:= '0';
+signal ca :  std_logic:= '0';
+signal cb :  std_logic:= '0';
+signal cc :  std_logic:= '0';
+signal cd :  std_logic:= '0';
+signal ce :  std_logic:= '0';
+signal cf :  std_logic:= '0';
+signal cg :  std_logic:= '0';
+signal dp :  std_logic:= '0';
+signal an1 :  std_logic:= '0';
+signal an2 :  std_logic:= '0';
+signal an3 :  std_logic:= '0';
+signal an4 :  std_logic:= '0';
 
 -- clock period definitions
 constant clk_period : time := 10 ns;  
@@ -80,7 +80,7 @@ uut: sevensegment_controller port map (
 		wait for clk_period/2;
    end process; 
 
-  segment_output <= (not an4) & (not an3) & (not an2) & (not an1);
+ segment_output <= (not an4) & (not an3) & (not an2) & (not an1);
  digit_output(0) <= (not ca) and (not cb) and (not cc) and (not cd) and (not ce) and (not cf) and (cg);
  digit_output(1) <= (ca) and (not cb) and (not cc) and (cd) and (ce) and (cf) and (cg);
  digit_output(2) <= (not ca) and (not cb) and (cc) and (not cd) and (not ce) and (cf) and (not cg);

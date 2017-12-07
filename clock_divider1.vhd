@@ -5,20 +5,19 @@ entity clock_divider is
     Port ( clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
            enable: in STD_LOGIC;
-			  kHz: out STD_LOGIC;	  
-		   -- added in lab 2:
+		   kHz: out STD_LOGIC;	  
 		   seconds_port: out STD_LOGIC_VECTOR(4-1 downto 0);
 		   ten_seconds_port: out STD_LOGIC_VECTOR(3-1 downto 0);
 		   minutes_port: out STD_LOGIC_VECTOR(4-1 downto 0);
 		   ten_minutes_port: out STD_LOGIC_VECTOR(3-1 downto 0);
-		   -- ADDED:
 		   twentyfive_MHz: out STD_LOGIC;
 		   hHz: out STD_LOGIC
 		  );
 end clock_divider;
 
 architecture Behavioral of clock_divider is
--- Signals:
+
+
 signal  i_enable: STD_LOGIC;
 signal 	kilohertz: STD_LOGIC;
 signal 	hundredhertz: STD_LOGIC;
@@ -33,8 +32,8 @@ signal ten_seconds_value: STD_LOGIC_VECTOR(3-1 downto 0);
 signal minutes_value: STD_LOGIC_VECTOR(4-1 downto 0);
 signal ten_minutes_value: STD_LOGIC_VECTOR(3-1 downto 0);
 
--- Components:
--- This is kind of like a function prototype in C/C++
+
+
 component downcounter is
 	Generic ( period: integer:= 4;
 				WIDTH: integer:= 3);
@@ -46,10 +45,10 @@ component downcounter is
 end component;
 begin
 
--- ADDED
+
 megaHzClock_25MHz: downcounter
 generic map(
-				period => (4-1), -- divide by 4
+				period => (4-1), 
 				WIDTH => 2
 			)
 port map (
@@ -57,7 +56,7 @@ port map (
 				reset => reset,
 				enable => '1',
 				zero => twentyfive_MHz,
-				value => open			-- Leave open since we won't display this value
+				value => open			
 );
 
 kiloHzClock: downcounter
@@ -166,16 +165,12 @@ port map (
 
 i_enable <= kilohertz and enable;
 
--- Connect internal signals to outputs
-kHz <= kilohertz;
 
--- added in lab 2:
+kHz <= kilohertz;
 seconds_port <= seconds_value;
 ten_seconds_port <= ten_seconds_value;
 minutes_port <= minutes_value;
 ten_minutes_port <= ten_minutes_value;
-
--- ADDED:
 hHz <= hundredhertz;
 
 end Behavioral;

@@ -2,13 +2,13 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity VgaModuleLab5 is
-    Port (  clk : in  STD_LOGIC;
-			reset : in STD_LOGIC;
-            redOut: out STD_LOGIC_VECTOR(3 downto 0);
-            greenOut: out STD_LOGIC_VECTOR(3 downto 0);
-            blueOut: out STD_LOGIC_VECTOR(3 downto 0);
-            hsync: out STD_LOGIC;
-            vsync: out STD_LOGIC;
+    Port (  clk : in  std_logic;
+			reset : in std_logic;
+            redout: out std_logic_vector(3 downto 0);
+            greenout: out std_logic_vector(3 downto 0);
+            blueout: out std_logic_vector(3 downto 0);
+            hsync: out std_logic;
+            vsync: out std_logic;
 			
 			firstDigitIn : in std_logic_vector(3 downto 0);
 			secondDigitIn : in std_logic_vector(3 downto 0);
@@ -90,10 +90,10 @@ end component;
 			
          box_x_positionIn: in std_logic_vector(9 downto 0);
          box_y_positionIn: in std_logic_vector(9 downto 0);
-         red: out STD_LOGIC_VECTOR(3 downto 0);
-         blue: out STD_LOGIC_VECTOR(3 downto 0);
+         red: out std_logic_vector(3 downto 0);
+         blue: out std_logic_vector(3 downto 0);
          green: out std_logic_vector(3 downto 0)
-      );
+         );
 end component;
 -- END ADDED
 
@@ -179,11 +179,11 @@ LETTERS: lettersLab5
     Port map ( pixel_clkVGA => i_pixel_clk,
                 scan_line_x_l => scan_line_x_i,
 				scan_line_y_l => scan_line_y_i,
-				letter_color => "000000000000",--letter_color,
+				letter_color => "000000000000",
 				scale => scale,
-				ConvertedScoreVGAIn => ConvertedScoreVGAModuleIn,--ConvertedScoreVGAModuleIn, (commented out for testing)
-				box_x_positionIn => box_x_position_i,--box_x_positionInVga,
-				box_y_positionIn => box_y_position_i,--box_y_positionInVga,
+				ConvertedScoreVGAIn => ConvertedScoreVGAModuleIn,
+				box_x_positionIn => box_x_position_i,
+				box_y_positionIn => box_y_position_i,
 				firstDigit => first_digit_i,--firstDigitIn,
 				secondDigit => second_digit_i,--secondDigitIn,
 				thirdDigit => third_digit_i,--thirdDigitIn,
@@ -200,14 +200,7 @@ redOut <= "0000" when (vga_blank = '1') else disp_red;
 blueOut  <= "0000" when (vga_blank = '1') else disp_blue;
 greenOut <= "0000" when (vga_blank = '1') else disp_green;
 
--- Connect input buttons and switches:
--- ADDED
--- These can be assigned to different switches/buttons
---box_color <= "00000000000";
 
---disp_red <= letter_red;
---disp_blue <= letter_blue;
---disp_green <= letter_green;
 
 -----------------------------------------------------------------------------
 

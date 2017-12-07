@@ -21,7 +21,6 @@ entity DigitandBoxPositionSelector is
 end DigitandBoxPositionSelector;
 
 architecture Behavioral of DigitandBoxPositionSelector is
-	-- Signals
 	
 begin
 

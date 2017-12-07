@@ -1,25 +1,25 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity ss_hub_vga is
-Port ( 		clk   : in STD_LOGIC;
-			reset : in STD_LOGIC; -- U17
-			op_comp : in STD_LOGIC; --JB1
-			to_filter : out STD_LOGIC; --JB0
+port ( 		clk   : in std_logic;
+			reset : in std_logic; -- u17
+			op_comp : in std_logic; --jb1
+			to_filter : out std_logic; --jb0
 
 			ir_comp : in std_logic;
 			
-			toggle : in STD_LOGIC;
+			toggle : in std_logic;
 			toggle2: in std_logic;
 
-			calibrate : in STD_LOGIC;--Added for calibration
+			calibrate : in std_logic;--added for calibration
 			
 			--vga
-			vgaRed: out STD_LOGIC_VECTOR(3 downto 0);
-            vgaGreen: out STD_LOGIC_VECTOR(3 downto 0);
-            vgaBlue: out STD_LOGIC_VECTOR(3 downto 0);
-            hsync: out STD_LOGIC;
-            vsync: out STD_LOGIC;
+			vgared: out std_logic_vector(3 downto 0);
+            vgagreen: out std_logic_vector(3 downto 0);
+            vgablue: out std_logic_vector(3 downto 0);
+            hsync: out std_logic;
+            vsync: out std_logic;
 
             
             --change stuff
@@ -29,25 +29,25 @@ Port ( 		clk   : in STD_LOGIC;
             btn_right_ss: in std_logic;
 			
 			--sevensegment stuff
-			CA : out  STD_LOGIC;
-			CB : out  STD_LOGIC;
-			CC : out  STD_LOGIC;
-			CD : out  STD_LOGIC;
-			CE : out  STD_LOGIC;
-			CF : out  STD_LOGIC;
-			CG : out  STD_LOGIC;
-			DP : out  STD_LOGIC;
-			AN1 : out STD_LOGIC;
-			AN2 : out STD_LOGIC;
-			AN3 : out STD_LOGIC;
-			AN4 : out STD_LOGIC			
+			ca : out  std_logic;
+			cb : out  std_logic;
+			cc : out  std_logic;
+			cd : out  std_logic;
+			ce : out  std_logic;
+			cf : out  std_logic;
+			cg : out  std_logic;
+			dp : out  std_logic;
+			an1 : out std_logic;
+			an2 : out std_logic;
+			an3 : out std_logic;
+			an4 : out std_logic			
 						
 			   );
 end ss_hub_vga;
 
 architecture Behavioral of ss_hub_vga is
 --Signals:
-signal i_to_filter : STD_LOGIC;
+signal i_to_filter : std_logic;
 signal i_saw_amp   : integer;
 signal i_locked_amp: std_logic_vector(10 downto 0);  --was 8
 signal i_locked_int: std_logic_vector(10 downto 0);
@@ -74,22 +74,22 @@ signal score_value_i: std_logic_vector(2 downto 0);
 --Components:
 
 component sevensegment_controller
-	Port ( clk : in STD_LOGIC;
-		   reset : in STD_LOGIC;
+	port ( clk : in std_logic;
+		   reset : in std_logic;
 		   toggle : in std_logic;
-		   Binary_Value : in STD_LOGIC_VECTOR (10 downto 0); -- was 8
-		   CA : out STD_LOGIC;
-		   CB : out STD_LOGIC;
-		   CC : out STD_LOGIC;
-		   CD : out STD_LOGIC;
-		   CE : out STD_LOGIC;
-		   CF : out STD_LOGIC;
-		   CG : out STD_LOGIC;
-		   DP : out STD_LOGIC;
-		   AN1 : out STD_LOGIC;
-		   AN2 : out STD_LOGIC;
-		   AN3 : out STD_LOGIC;
-		   AN4 : out STD_LOGIC--;
+		   binary_value : in std_logic_vector (10 downto 0); -- was 8
+		   ca : out std_logic;
+		   cb : out std_logic;
+		   cc : out std_logic;
+		   cd : out std_logic;
+		   ce : out std_logic;
+		   cf : out std_logic;
+		   cg : out std_logic;
+		   dp : out std_logic;
+		   an1 : out std_logic;
+		   an2 : out std_logic;
+		   an3 : out std_logic;
+		   an4 : out std_logic--;
 		   );
 end component;
 
@@ -101,7 +101,7 @@ component bin2bcd
            cm_ones : out std_logic_vector (3 downto 0);            -- needs to display 0-9
            cm_tenths : out std_logic_vector (3 downto 0);          -- needs to display 0-9
            cm_hundredths : out std_logic_vector (3 downto 0)       -- needs to display 0-9
-          );
+           );
 end component;
 
 
@@ -119,18 +119,18 @@ component ChangeParametersModule
 		  box_x_position: out std_logic_vector(9 downto 0);
 		  box_y_position: out std_logic_vector(9 downto 0);
 		  scaleOutParams: out std_logic_vector(3 downto 0)  
-	);
+	      );
 end component;
 
 
 component VgaModuleLab5
-    Port (  clk : in  STD_LOGIC;
-			reset : in STD_LOGIC;
-            redOut: out STD_LOGIC_VECTOR(3 downto 0);
-            greenOut: out STD_LOGIC_VECTOR(3 downto 0);
-            blueOut: out STD_LOGIC_VECTOR(3 downto 0);
-            hsync: out STD_LOGIC;
-            vsync: out STD_LOGIC;
+    port (  clk : in  std_logic;
+			reset : in std_logic;
+            redout: out std_logic_vector(3 downto 0);
+            greenout: out std_logic_vector(3 downto 0);
+            blueout: out std_logic_vector(3 downto 0);
+            hsync: out std_logic;
+            vsync: out std_logic;
 			
 			firstDigitIn : in std_logic_vector(3 downto 0);
 			secondDigitIn : in std_logic_vector(3 downto 0);
@@ -141,47 +141,46 @@ component VgaModuleLab5
 			
 			box_x_positionInVga: in std_logic_vector(9 downto 0);
 			box_y_positionInVga: in std_logic_vector(9 downto 0)--;
-	 );
+	        );
 end component;
 
 
 component goal_register
-    Port ( reset : in std_logic;
-            clk 		: in  STD_LOGIC;
-			   ir_sig : in STD_LOGIC;
-			   goal     : out STD_LOGIC
-			 );
+    port ( reset : in std_logic;
+           clk : in  STD_LOGIC;
+		   ir_sig : in STD_LOGIC;
+		   goal : out STD_LOGIC
+		   );
 			 
 end component;
 
 component IRReceiverModule
-    Port (clk : in std_logic;
-		      reset : in std_logic;
-		      irSignal : in std_logic; -- low means that the ball crossed and we must get the value of the dist.
-			  distanceDigitOne : in std_logic_vector(3 downto 0); -- value of 0 to 3
-			  distanceDigitTwo : in std_logic_vector(3 downto 0); -- value of 0 to 9 
-			  distanceDigitThree : in std_logic_vector(3 downto 0); -- value of 0 to 9
-			  
-			  convertedScore : out std_logic_vector(2 downto 0) -- score recevied
-				 );
+    port (clk : in std_logic;
+		  reset : in std_logic;
+		  irSignal : in std_logic; -- low means that the ball crossed and we must get the value of the dist.
+		  distanceDigitOne : in std_logic_vector(3 downto 0); -- value of 0 to 3
+		  distanceDigitTwo : in std_logic_vector(3 downto 0); -- value of 0 to 9 
+		  distanceDigitThree : in std_logic_vector(3 downto 0); -- value of 0 to 9
+		  
+		  convertedScore : out std_logic_vector(2 downto 0) -- score recevied
+		  );
 end component;
 
 
 component saw_wave
-	Port ( 	clk   : in STD_LOGIC;
-			reset : in STD_LOGIC;
+	port ( 	clk   : in std_logic;
+			reset : in std_logic;
 			outamplitude : out integer;
-			waveform     : out STD_LOGIC--;
+			waveform     : out std_logic--;
 			);
 end component;
 			
 
 component amp_lock_cal_2
-
-	Port (	clk   : in STD_LOGIC;
-			reset : in STD_LOGIC;
-			comp_state : in STD_LOGIC;
-			calibrate  : in STD_LOGIC; --added for calibration
+	port (	clk   : in std_logic;
+			reset : in std_logic;
+			comp_state : in std_logic;
+			calibrate  : in std_logic; --added for calibration
 			saw_amp    : in integer;
 
 			e_offset   : out std_logic_vector(10 downto 0);
@@ -194,9 +193,6 @@ end component;
 begin 
 
 to_filter <= i_to_filter;
---vgaRed <= "1111";
---vgaBlue <= "1111";
---vgaGreen <= "1111";
 
 sw_int_amp :process(toggle)
 begin
@@ -219,8 +215,6 @@ changeStuff: ChangeParametersModule
 	btn_down => btn_down_ss,
 	btn_left => btn_left_ss,
 	btn_right => btn_right_ss,
-	--scale_up => scale_up,
-	--scale_down => scale_down,
 	box_x_position => box_x_position_ss,
 	box_y_position => box_y_position_ss,
 	scaleOutParams => scale_i
@@ -242,30 +236,30 @@ Vga : VgaModuleLab5
 			secondDigitIn =>i_msd,
 			thirdDigitIn =>	i_rsd,
 			scale => scale_i,
-			ConvertedScoreVGAModuleIn => score_value_i,                 -------------- change to adjust scale (if testing is required)
+			ConvertedScoreVGAModuleIn => score_value_i, 
 			
 			box_x_positionInVga => box_x_position_ss,
 			box_y_positionInVga => box_y_position_ss
 			);
 			
 goal_reg: goal_register
-    Port Map(reset => reset,
+    port map(reset => reset,
              clk => clk,
             ir_sig => ir_comp,
             goal => goal_i
-    );
+		    );
     
 			
 irReceiver: IRReceiverModule
-    Port Map(
-    clk => clk,
-    reset => reset,
-	irSignal => goal_i,
-    distanceDigitOne => i_lsd,
-	distanceDigitTwo => i_msd,
-	distanceDigitThree => i_rsd,
-	convertedScore => score_value_i
-    );
+    port map(
+			clk => clk,
+			reset => reset,
+			irSignal => goal_i,
+			distanceDigitOne => i_lsd,
+			distanceDigitTwo => i_msd,
+			distanceDigitThree => i_rsd,
+			convertedScore => score_value_i
+			);
 			
 
 vga_num : bin2bcd
@@ -279,16 +273,16 @@ vga_num : bin2bcd
 			);
 
 saw: saw_wave
-	PORT MAP (
-				clk => clk,
-				reset => reset,
-				outamplitude => i_saw_amp,
-				waveform => i_to_filter
+	port map (
+			clk => clk,
+			reset => reset,
+			outamplitude => i_saw_amp,
+			waveform => i_to_filter
 			);
 			
 
 comp_check: amp_lock_cal_2
-	PORT MAP (
+	port map (
 				clk => clk,
 				reset => reset,
 				comp_state => op_comp,
@@ -302,7 +296,7 @@ comp_check: amp_lock_cal_2
 				);
 
 ss_top: sevensegment_controller
-	PORT MAP (
+	port map (
 		  clk => clk,
 		  reset => reset,
 

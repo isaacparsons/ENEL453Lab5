@@ -10,17 +10,19 @@ entity sevensegment_decoder is
            cf : out  std_logic;
            cg : out  std_logic;
            dp : out  std_logic;
-		   dp_in: in std_logic;
+	   dp_in: in std_logic;
            data : in  std_logic_vector (3 downto 0)
-			   );
+	 );
 end sevensegment_decoder;
 
 architecture behavioral of sevensegment_decoder is
-	signal decoded_bits: std_logic_vector(6 downto 0);
+
+signal decoded_bits: std_logic_vector(6 downto 0);
+
 begin
 
 decoding: process(data) 
-begin -- sensitive to changing data
+begin 
 	case data is
 		when "0000" => decoded_bits <= "1111110"; -- shows zero
 		when "0001" => decoded_bits <= "0110000"; -- shows one
@@ -32,12 +34,12 @@ begin -- sensitive to changing data
 		when "0111" => decoded_bits <= "1110000"; -- shows seven
 		when "1000" => decoded_bits <= "1111111"; -- shows eight
 		when "1001" => decoded_bits <= "1111011"; -- shows nine
-        when "1111" => decoded_bits <= "0000000"; -- shows blank
+		when "1111" => decoded_bits <= "0000000"; -- shows blank
 		when others => decoded_bits <= "1001111"; -- for everything else, e for error
 	end case;
 end process;
 
--- the leds that compose the segments are actually active low
+-- the leds that compose the segments are active low
 dp <= not dp_in;
 ca <= not decoded_bits(6);
 cb <= not decoded_bits(5);

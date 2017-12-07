@@ -1,64 +1,58 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity tb_ss_hub_vga is
 end tb_ss_hub_vga;
 
-ARCHITECTURE behavior OF tb_ss_hub_vga IS 
+architecture behavior of tb_ss_hub_vga is 
  
-    -- Component Declaration for the Unit Under Test (UUT)
+    -- component declaration for the unit under test (uut)
  
-    COMPONENT ss_hub_vga
-    Port ( 	clk   : in STD_LOGIC;
-			reset : in STD_LOGIC; -- BTNC
-			op_comp : in STD_LOGIC;
-			to_filter : out STD_LOGIC;
-<<<<<<< HEAD
+    component ss_hub_vga
+    port ( 	clk   : in std_logic;
+			reset : in std_logic; -- btnc
+			op_comp : in std_logic;
+			to_filter : out std_logic;
 			ir_comp : in std_logic;
 			
-			toggle : in STD_LOGIC;
+			toggle : in std_logic;
 			toggle2: in std_logic;
-			calibrate : in STD_LOGIC;
+			calibrate : in std_logic;
 			
 			btn_up_ss: in std_logic;
             btn_down_ss: in std_logic;
             btn_left_ss: in std_logic;
             btn_right_ss: in std_logic;
-=======
-			
-			toggle : in STD_LOGIC;
->>>>>>> b9fee138f175d338331473809642f5f1799d66ff
-			
+		
 			--vga
-			vgaRed: out STD_LOGIC_VECTOR(3 downto 0);
-            vgaGreen: out STD_LOGIC_VECTOR(3 downto 0);
-            vgaBlue: out STD_LOGIC_VECTOR(3 downto 0);
-            Hsync: out STD_LOGIC;
-            Vsync: out STD_LOGIC;
+			vgared: out std_logic_vector(3 downto 0);
+            vgagreen: out std_logic_vector(3 downto 0);
+            vgablue: out std_logic_vector(3 downto 0);
+            hsync: out std_logic;
+            vsync: out std_logic;
 			
 			--sevensegment stuff
-			CA : out  STD_LOGIC;
-			CB : out  STD_LOGIC;
-			CC : out  STD_LOGIC;
-			CD : out  STD_LOGIC;
-			CE : out  STD_LOGIC;
-			CF : out  STD_LOGIC;
-			CG : out  STD_LOGIC;
-			DP : out  STD_LOGIC;
-			AN1 : out STD_LOGIC;
-			AN2 : out STD_LOGIC;
-			AN3 : out STD_LOGIC;
-			AN4 : out STD_LOGIC
+			ca : out  std_logic;
+			cb : out  std_logic;
+			cc : out  std_logic;
+			cd : out  std_logic;
+			ce : out  std_logic;
+			cf : out  std_logic;
+			cg : out  std_logic;
+			dp : out  std_logic;
+			an1 : out std_logic;
+			an2 : out std_logic;
+			an3 : out std_logic;
+			an4 : out std_logic
 			);
 end component;
     
-    --Inputs
+    --inputs
     signal clk : std_logic := '0';
     signal reset : std_logic := '0';
 	signal op_comp : std_logic := '0';
-<<<<<<< HEAD
 	signal ir_comp : std_logic := '0';
 	signal calibrate: std_logic:= '0';
 	signal btn_up_ss: std_logic:= '0';
@@ -68,40 +62,35 @@ end component;
 	signal to_filter : std_logic;
 	signal toggle : std_logic := '0';
 	signal toggle2 : std_logic := '0';
-=======
-	signal to_filter : std_logic;
-	signal toggle : std_logic := '0';
->>>>>>> b9fee138f175d338331473809642f5f1799d66ff
-	signal vgaRed: STD_LOGIC_VECTOR(3 downto 0);
-    signal vgaGreen: STD_LOGIC_VECTOR(3 downto 0);
-    signal vgaBlue: STD_LOGIC_VECTOR(3 downto 0);
-    signal Hsync: STD_LOGIC;
-    signal Vsync: STD_LOGIC;
-	signal CA : STD_LOGIC;
-	signal CB : STD_LOGIC;
-	signal CC : STD_LOGIC;
-	signal CD : STD_LOGIC;
-	signal CE : STD_LOGIC;
-	signal CF : STD_LOGIC;
-	signal CG : STD_LOGIC;
-	signal DP : STD_LOGIC;
-	signal AN1 : STD_LOGIC;
-	signal AN2 : STD_LOGIC;
-	signal AN3 : STD_LOGIC;
-	signal AN4 : STD_LOGIC;
+	signal vgared: std_logic_vector(3 downto 0);
+    signal vgagreen: std_logic_vector(3 downto 0);
+    signal vgablue: std_logic_vector(3 downto 0);
+    signal hsync: std_logic;
+    signal vsync: std_logic;
+	signal ca : std_logic;
+	signal cb : std_logic;
+	signal cc : std_logic;
+	signal cd : std_logic;
+	signal ce : std_logic;
+	signal cf : std_logic;
+	signal cg : std_logic;
+	signal dp : std_logic;
+	signal an1 : std_logic;
+	signal an2 : std_logic;
+	signal an3 : std_logic;
+	signal an4 : std_logic;
 
 	
-   -- Clock period definitions
+   -- clock period definitions
    constant clk_period : time := 10 ns;
  
-BEGIN
+begin
  
-	-- Instantiate the Unit Under Test (UUT)
-   uut: ss_hub_vga PORT MAP (
+	-- instantiate the unit under test (uut)
+   uut: ss_hub_vga port map (
           clk => clk,
 		  reset => reset,
 		  op_comp => op_comp,
-<<<<<<< HEAD
 		  ir_comp => ir_comp,
 		  to_filter => to_filter,
 		  btn_up_ss => btn_up_ss,
@@ -111,32 +100,28 @@ BEGIN
 		  toggle => toggle,
 		  toggle2 => toggle2,
 		  calibrate => calibrate,
-=======
-		  to_filter => to_filter,
-		  toggle => toggle,
->>>>>>> b9fee138f175d338331473809642f5f1799d66ff
-		  vgaRed => vgaRed,
-		  vgaBlue => vgaBlue,
-		  vgaGreen => vgaGreen,
-		  Hsync => Hsync,
-		  Vsync => Vsync,
-		  CA => CA,
-		  CB => CB,
-		  CC => CC,
-		  CD => CD,
-		  CE => CE,
-		  CF => CF,
-		  CG => CG,
-		  DP => DP,
-		  AN1 => AN1,
-		  AN2 => AN2,
-		  AN3 => AN3,
-		  AN4 => AN4--,
+		  vgared => vgared,
+		  vgablue => vgablue,
+		  vgagreen => vgagreen,
+		  hsync => hsync,
+		  vsync => vsync,
+		  ca => ca,
+		  cb => cb,
+		  cc => cc,
+		  cd => cd,
+		  ce => ce,
+		  cf => cf,
+		  cg => cg,
+		  dp => dp,
+		  an1 => an1,
+		  an2 => an2,
+		  an3 => an3,
+		  an4 => an4--,
 		  );
 
   
    
-   -- Clock process definitions
+   -- clock process definitions
    clk_process: process
    begin
 		clk <= '0';
@@ -145,7 +130,7 @@ BEGIN
 		wait for clk_period/2;
    end process; 
 
-   -- Stimulus process
+   -- stimulus process
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
@@ -158,14 +143,8 @@ BEGIN
    comp_proc: process
    begin
 		wait for 500 ns;
-<<<<<<< HEAD
 		ir_comp <= '1';
 		wait for 500 ns;
 		ir_comp <= '0';
-=======
-		op_comp <= '1';
-		wait for 500 ns;
-		op_comp <= '0';
->>>>>>> b9fee138f175d338331473809642f5f1799d66ff
    end process;
-END;
+end;

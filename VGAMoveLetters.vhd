@@ -5,22 +5,17 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity VGAMoveLetters is
 	
-		Port ( clk : in  STD_LOGIC;
-				   reset : in  STD_LOGIC;
-				   btnUp : in std_logic;
-				   btnDown : in std_logic;
-				   btnLeft : in std_logic;
-				   btnRight : in std_logic;
-				   
-
-				   --increaseScale : in std_logic;
-				   --decreaseScale : in std_logic;
-
-				   
-				   box_x_positionOut : out std_logic_vector(9 downto 0);
-				   box_y_positionOut : out std_logic_vector(9 downto 0);
-				   scaleOut : out std_logic_vector(3 downto 0)
-				 );
+		port ( clk : in  std_logic;
+			   reset : in  std_logic;
+			   btnUp : in std_logic;
+			   btnDown : in std_logic;
+			   btnLeft : in std_logic;
+			   btnRight : in std_logic;
+							   
+			   box_x_positionOut : out std_logic_vector(9 downto 0);
+			   box_y_positionOut : out std_logic_vector(9 downto 0);
+			   scaleOut : out std_logic_vector(3 downto 0)
+			   );
 end VGAMoveLetters;
 
 architecture Behavioral of VGAMoveLetters is
@@ -47,16 +42,7 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
 
 
 	elsif (rising_edge(clk)) then		-- When counter is enabled
---        if(btnUp = '1' and lastStateUp = '0' and (ibox_y_pos < (14*6*currentScale))) then
---            lastStateUp <= '1';
---            ibox_y_pos <= ibox_y_pos + currentScale;
---        end if;
-        
---        if((btnDown = '1') and lastStateDown = '0' and (ibox_y_pos > 0)) then
---            lastStateDown <= '1';
---            ibox_y_pos <= ibox_y_pos - currentScale;
---        end if;
-            
+           
         if((btnLeft = '1') and lastStateLeft = '0' and  (ibox_x_pos > 7)) then
             lastStateLeft <= '1';
             ibox_x_pos <= ibox_x_pos - currentScale;
@@ -71,13 +57,6 @@ changePosition: process(clk, reset, btnUp, btnDown, btnRight, btnLeft) begin
         lastStateDown <= btnDown;
         lastStateLeft <= btnLeft;
         lastStateRight <= btnRight;
-        
-		
-		--if((increaseScale = '1') and (currentScale < maxScale) and decreaseScale = '0' ) then
-			--currentScale <= currentScale + 1;
-		--elsif((decreaseScale = '1') and (currentScale > minScale) and (increaseScale = '0')) then
-			--currentScale <= currentScale - 1;
-		--end if;
 
 		
 	end if;
